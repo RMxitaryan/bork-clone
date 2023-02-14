@@ -20,9 +20,6 @@ export default function SelectSmall({ categories, setCategories }) {
         label="categories"
         onChange={handleChange}
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
         <MenuItem value="kitchen">kitchen</MenuItem>
         <MenuItem value="home & climate">home & climate</MenuItem>
         <MenuItem value="health & beauty">health & beauty</MenuItem>

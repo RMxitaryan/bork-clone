@@ -4,6 +4,11 @@ import {
   DELETE_USER,
   SET_CARD,
   SET_CARD_BASKET,
+  SET_KITCHEN_CARD,
+  SET_ACCESSORISE_CARD,
+  SET_BORKHOME_CARD,
+  SET_HEALTHANDBEAUTY_CARD,
+  SET_HOMEANDCLIMATE_CARD,
 } from "../actionTypes";
 
 // export const userInitialState = {
@@ -36,6 +41,36 @@ export const setUserReducer = (state = userInitialState, action) => {
 
 export const setCardReduser = (state = [], action) => {
   if (action.type === SET_CARD) {
+    return action.payload;
+  }
+  return state;
+};
+export const setAccessoriesReducer = (state = [], action) => {
+  if (action.type === SET_ACCESSORISE_CARD) {
+    return action.payload;
+  }
+  return state;
+};
+export const setBorkHomeReducer = (state = [], action) => {
+  if (action.type === SET_BORKHOME_CARD) {
+    return action.payload;
+  }
+  return state;
+};
+export const setHealthAndBeautyReducer = (state = [], action) => {
+  if (action.type === SET_HEALTHANDBEAUTY_CARD) {
+    return action.payload;
+  }
+  return state;
+};
+export const setHomeAndClimateReducer = (state = [], action) => {
+  if (action.type === SET_HOMEANDCLIMATE_CARD) {
+    return action.payload;
+  }
+  return state;
+};
+export const setKitchenReducer = (state = [], action) => {
+  if (action.type === SET_KITCHEN_CARD) {
     return action.payload;
   }
   return state;

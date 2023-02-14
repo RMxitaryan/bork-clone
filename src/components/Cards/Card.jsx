@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import { useEffect, useState } from "react";
-import { addItemFirebase, auth } from "../../config/Config";
+import { addItemFirebase, auth, deleteItemFirebase } from "../../config/Config";
 import SignDialog from "../Dialog/SignDialog";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     position: "relative",
     display: "inline-block",
     width: "300px",
-    margin: "40px 30px 30px 40px",
+    marginTop: 40,
     verticalAlign: "top",
     transition: "opacity .5s ease",
     willChange: "opacity",
@@ -171,6 +171,7 @@ export const Card = ({
   src,
   price,
   name,
+  id,
 }) => {
   const classes = useStyles();
   const [isAdd, setIsAdd] = useState(false);
@@ -179,6 +180,17 @@ export const Card = ({
   const currentUser = useSelector(selectUser);
   const basket = useSelector(selectBasket);
   const dispatch = useDispatch();
+  console.log(basket, "kkkk");
+  useEffect(() => {
+    if (currentUser.email) {
+      basket.map((item) => {
+        console.log(basket);
+        if (item.id === id) {
+          setIsAdd(true);
+        }
+      });
+    }
+  }, [currentUser.email, basket.length]);
 
   const handelAddClick = () => {
     if (auth.currentUser) {
@@ -186,13 +198,22 @@ export const Card = ({
         src: src,
         name: name,
         price: price,
+        id: id,
+        count: 1,
       };
+
       setIsAdd(!isAdd);
-      addItemFirebase(card, currentUser.email, basket);
+      addItemFirebase(card, currentUser.email, id);
     } else {
       setOpenSignDialog(true);
     }
   };
+
+  const handleCheckClick = () => {
+    setIsAdd(!isAdd);
+    deleteItemFirebase(currentUser.email, id);
+  };
+
   const handelFavoriteClick = () => {
     if (auth.currentUser) {
       setIsFavorite(!isFavorite);
@@ -226,7 +247,10 @@ export const Card = ({
           )}
 
           {isAdd ? (
-            <CheckIcon onClick={handelAddClick} className={classes.addedItem} />
+            <CheckIcon
+              onClick={handleCheckClick}
+              className={classes.addedItem}
+            />
           ) : (
             <AddIcon onClick={handelAddClick} className={classes.addIcon} />
           )}

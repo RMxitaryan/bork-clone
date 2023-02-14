@@ -1,11 +1,10 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { createUseStyles } from "react-jss";
 import { Link } from "react-router-dom";
-
 const useStyles = createUseStyles({
   menuCatalog: {
     zIndex: 10,
-    backgroundColor: "#3a3330",
+    backgroundColor: "#4E4440",
     translateX: "translateX(0)",
     position: "absolute",
     top: "0",
@@ -67,8 +66,8 @@ const useStyles = createUseStyles({
     textDecoration: "none",
     paddingLeft: 10,
     "&:hover": {
-      backgroundColor: "#9a9999",
-      color: "#3a3333",
+      backgroundColor: "#9A9999",
+      color: "#3A3333",
       paddingLeft: 10,
     },
   },
@@ -81,14 +80,11 @@ const useStyles = createUseStyles({
     height: "30px",
   },
 });
-
 const MenuBar = ({ isOpenMenu, setIsOpenMenu }) => {
   const classes = useStyles();
-
   const onCloseMenu = () => {
     setIsOpenMenu(!isOpenMenu);
   };
-
   return (
     <div className={classes.menuCatalog}>
       <div className={classes.headerMenu}>
@@ -99,24 +95,33 @@ const MenuBar = ({ isOpenMenu, setIsOpenMenu }) => {
       <div className={classes.mainMenu}>
         <ul className={classes.menuItems}>
           <li>
-            <Link className={classes.link}>Kitchen</Link>
+            <Link to="kitchen" className={classes.link}>
+              Kitchen
+            </Link>
           </li>
           <li>
-            <Link className={classes.link}>Home & climat</Link>
+            <Link to="homeAndClimat" className={classes.link}>
+              Home & climat
+            </Link>
           </li>
           <li>
-            <Link className={classes.link}>Health & beauty</Link>
+            <Link to="healthAndBeauty" className={classes.link}>
+              Health & beauty
+            </Link>
           </li>
           <li>
-            <Link className={classes.link}>Bork home</Link>
+            <Link to="borkHome" className={classes.link}>
+              Bork home
+            </Link>
           </li>
           <li>
-            <Link className={classes.link}>accessories</Link>
+            <Link to="accessories" className={classes.link}>
+              accessories
+            </Link>
           </li>
         </ul>
       </div>
     </div>
   );
 };
-
 export default MenuBar;

@@ -9,3 +9,19 @@ export const selectCard = (state) => {
 export const selectBasket = (state) => {
   return state.basket;
 };
+
+export const selectKitchen = (state) => {
+  return state.kitchen;
+};
+export const selectBorkHome = (state) => {
+  return state.borkHome;
+};
+export const selectAccessories = (state) => {
+  return state.accessories;
+};
+export const selectHealthAndBeauty = (state) => {
+  return state.healthAndBeauty;
+};
+export const selectHomeAndClimate = (state) => {
+  return state.homeAndClimate;
+};
