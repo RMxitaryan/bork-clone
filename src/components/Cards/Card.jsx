@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     position: "relative",
     display: "inline-block",
     width: "300px",
-    margin: "40px 30px 30px 40px",
+    marginTop: 40,
     verticalAlign: "top",
     transition: "opacity .5s ease",
     willChange: "opacity",
@@ -180,18 +180,17 @@ export const Card = ({
   const currentUser = useSelector(selectUser);
   const basket = useSelector(selectBasket);
   const dispatch = useDispatch();
-
+  console.log(basket, "kkkk");
   useEffect(() => {
-    setTimeout(() => {
-      if (currentUser.email) {
-        basket.map((item) => {
-          if (item.id === id) {
-            setIsAdd(!isAdd);
-          }
-        });
-      }
-    }, 0);
-  }, [currentUser.email]);
+    if (currentUser.email) {
+      basket.map((item) => {
+        console.log(basket);
+        if (item.id === id) {
+          setIsAdd(true);
+        }
+      });
+    }
+  }, [currentUser.email, basket.length]);
 
   const handelAddClick = () => {
     if (auth.currentUser) {
@@ -200,7 +199,9 @@ export const Card = ({
         name: name,
         price: price,
         id: id,
+        count: 1,
       };
+
       setIsAdd(!isAdd);
       addItemFirebase(card, currentUser.email, id);
     } else {

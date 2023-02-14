@@ -57,6 +57,12 @@ const useStyles = createUseStyles({
     },
   },
   headerTopLeft: { marginLeft: 15 },
+  itemsBlock: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    flexWrap: "wrap",
+  },
 });
 
 function Home({
@@ -93,33 +99,11 @@ function Home({
         // snapshot.docs.forEach((doc) => {
 
         // });
+        console.log(arr, "aaaaaaaaaa");
         dispatch(setCard(arr));
       })
       .catch((err) => console.log(err.message));
   }, [updater]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      const colRef = collection(db, "Basket");
-      getDocs(colRef)
-        .then((snapshot) => {
-          let arr = [];
-          snapshot.docs.forEach((doc) => {
-            if (auth.currentUser.email === doc.id) {
-              const obj = doc.data();
-              for (const item in obj) {
-                arr.push(obj[item]);
-              }
-            }
-          });
-          dispatch(setBasket(arr));
-        })
-        .catch((err) => console.log(err.message));
-      console.log(basket, "basket");
-    }, 0);
-  }, []);
-  console.log("cards", cards);
-  console.log("basket", basket);
 
   return (
     <>
@@ -137,30 +121,32 @@ function Home({
         ) : null}
         <SignInDialog open={signInDialogOpen} handleClose={handleSignInClose} />
         <SignUpDialog open={signUpDialogOpen} handleClose={handleSignUpClose} />
-        {cards.map((item) => {
-          return (
-            <Card
-              key={uuidv4()}
-              openHome={openHome}
-              handleSignUpClose={handleSignUpClose}
+        <div className={classes.itemsBlock}>
+          {cards.map((item) => {
+            return (
+              <Card
+                key={uuidv4()}
+                openHome={openHome}
+                handleSignUpClose={handleSignUpClose}
+                handleSignUpClickOpen={handleSignUpClickOpen}
+                handleSignInClickOpen={handleSignInClickOpen}
+                handleSignInClose={handleSignInClose}
+                src={item.src}
+                price={item.price}
+                name={item.name}
+                id={item.id}
+              />
+            );
+          })}
+          {currentUser.email && (
+            <AddCard
               handleSignUpClickOpen={handleSignUpClickOpen}
               handleSignInClickOpen={handleSignInClickOpen}
-              handleSignInClose={handleSignInClose}
-              src={item.src}
-              price={item.price}
-              name={item.name}
-              id={item.id}
+              updater={updater}
+              setUpdater={setUpdater}
             />
-          );
-        })}
-        {currentUser.email && (
-          <AddCard
-            handleSignUpClickOpen={handleSignUpClickOpen}
-            handleSignInClickOpen={handleSignInClickOpen}
-            updater={updater}
-            setUpdater={setUpdater}
-          />
-        )}
+          )}
+        </div>
       </div>
     </>
   );

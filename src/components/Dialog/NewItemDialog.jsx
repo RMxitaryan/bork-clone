@@ -55,7 +55,12 @@ function NewItemDialog({
   };
 
   const handleAddClick = () => {
-    if (imageUpload && name.trim().length && price.trim().length) {
+    if (
+      imageUpload &&
+      name.trim().length &&
+      price.trim().length &&
+      categories.length
+    ) {
       const id = uuidv4();
       const imageRef = ref(storage, `images/${id}`);
       uploadBytes(imageRef, imageUpload).then((res) => {
@@ -92,6 +97,7 @@ function NewItemDialog({
     setName("");
     setPrice("");
     setImageUpload(null);
+    setCategories("");
   };
 
   return (
@@ -143,11 +149,13 @@ function NewItemDialog({
           />
         )}
       </Dialog>
-      {openSnackbarSuccess && (
-        <SnackbarSuccess
-          handleCloseSnackbarSuccess={handleCloseSnackbarSuccess}
-        />
-      )}
+
+      <SnackbarSuccess
+        handleCloseSnackbarSuccess={handleCloseSnackbarSuccess}
+        open={openSnackbarSuccess}
+      >
+        Your item was successfully added
+      </SnackbarSuccess>
     </div>
   );
 }

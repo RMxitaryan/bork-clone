@@ -83,6 +83,12 @@ export const addItemFirebase = (card, email, id) => {
   });
 };
 
+export const changeCount = (email, id, card) => {
+  updateDoc(doc(db, "Basket", email), {
+    [id]: card,
+  });
+};
+
 export const deleteItemFirebase = (email, id) => {
   updateDoc(doc(db, "Basket", email), {
     [id]: deleteField(),

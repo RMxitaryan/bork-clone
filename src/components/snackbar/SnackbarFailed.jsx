@@ -20,7 +20,7 @@ export default function SnackbarFailed({ handleCloseSnackbarFailed }) {
     <>
       <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          please select name or price or file
+          one or more fieldes were not filled
         </Alert>
       </Snackbar>
     </>
