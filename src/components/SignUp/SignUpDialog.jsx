@@ -11,6 +11,7 @@ import "firebase/compat/database";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/selector";
 import { setUser } from "../../redux/user/actions";
+import { addBasket, addUsersFirebase } from "../../config/Config";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -86,7 +87,9 @@ function SignUpDialog({ open, handleClose }) {
         setEmail("");
         setUserName("");
         setPassword("");
+        addUsersFirebase(userName, email, password);
         dispatch(setUser({ ...current, email: auth.user.email }));
+        addBasket(email);
         handleClose();
       })
       .catch((error) => setError("Invalid email or password"));
