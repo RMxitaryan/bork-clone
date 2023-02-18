@@ -9,6 +9,7 @@ import {
   SET_BORKHOME_CARD,
   SET_HEALTHANDBEAUTY_CARD,
   SET_HOMEANDCLIMATE_CARD,
+  SET_FAVOURITE,
 } from "../actionTypes";
 
 // export const userInitialState = {
@@ -96,6 +97,12 @@ export const setKitchenReducer = (state = [], action) => {
 // };
 export const setBasketReduser = (state = [], action) => {
   if (action.type === SET_CARD_BASKET) {
+    return action.payload;
+  }
+  return state;
+};
+export const setFavouriteReducer = (state = [], action) => {
+  if (action.type === SET_FAVOURITE) {
     return action.payload;
   }
   return state;

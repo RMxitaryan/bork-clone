@@ -8,6 +8,7 @@ import {
   SET_HEALTHANDBEAUTY_CARD,
   SET_KITCHEN_CARD,
   SET_HOMEANDCLIMATE_CARD,
+  SET_FAVOURITE,
 } from "../actionTypes";
 
 export const setUser = (payload) => {
@@ -39,4 +40,7 @@ export const setKitchen = (payload) => {
 };
 export const setHomeAndClimate = (payload) => {
   return { type: SET_HOMEANDCLIMATE_CARD, payload };
+};
+export const setFavourite = (payload) => {
+  return { type: SET_FAVOURITE, payload };
 };
