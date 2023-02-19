@@ -94,7 +94,7 @@ function SignUp() {
       .catch((error) => setError("Invalid email or password"));
   };
   if (auth.currentUser) {
-    return <Navigate to="/" />;
+    navigate("/");
   }
   return (
     <div className={classes.signUpDialog}>

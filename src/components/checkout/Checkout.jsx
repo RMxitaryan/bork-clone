@@ -5,6 +5,8 @@ import AddressDialog from "./AddressDialog";
 import { PaymentDialog } from "./PaymentDialog";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import { useDispatch } from "react-redux";
+import { setCheckout } from "../../redux/user/actions";
 
 const useStyles = createUseStyles({
   dialog: {
@@ -33,6 +35,7 @@ const theme = createTheme({
 function Checkout({ open, handleCloseCheckout, handleBuy }) {
   const [activeStep, setActiveStep] = useState(0);
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -106,6 +109,7 @@ function Checkout({ open, handleCloseCheckout, handleBuy }) {
                       onClick={() => {
                         handleBuy();
                         handleNext();
+                        dispatch(setCheckout({}));
                       }}
                     >
                       Order

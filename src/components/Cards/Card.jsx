@@ -1,5 +1,5 @@
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import { useEffect, useState } from "react";
@@ -193,6 +193,7 @@ export const Card = ({
   const basket = useSelector(selectBasket);
   const favorite = useSelector(selectFavourite);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   console.log(basket, "kkkk");
   useEffect(() => {
     if (currentUser.email) {
@@ -227,6 +228,7 @@ export const Card = ({
       dispatch(setBasket([...basket, card]));
       setIsAdd(true);
       addItemFirebase(card, currentUser.email, id);
+      navigate("/basket");
     } else {
       setOpenSignDialog(true);
     }
@@ -253,6 +255,7 @@ export const Card = ({
       dispatch(setFavourite([...favorite, card]));
       setIsFavorite(true);
       addItemFirebaseFavorite(card, currentUser.email, id);
+      navigate("/favorite");
     } else {
       setOpenSignDialog(true);
     }

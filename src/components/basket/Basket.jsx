@@ -10,8 +10,14 @@ import Checkout from "../checkout/Checkout";
 import BuyDialog from "../Dialog/BuyDialog";
 import SnackbarSuccess from "../snackbar/SnackbarSuccess";
 import BasketCard from "./BasketCard";
+import { v4 as uuid } from "uuid";
+import BackButton from "../Button/BackButton";
+import { Footer } from "../footer/Footer";
 const useStyles = createUseStyles({
   main: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     width: "100%",
     height: "100%",
   },
@@ -89,6 +95,12 @@ const useStyles = createUseStyles({
       borderColor: "#ED8855",
     },
   },
+  back: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    width: "100%",
+  },
 });
 function Basket({
   overAllCount,
@@ -126,6 +138,9 @@ function Basket({
 
   return (
     <div className={classes.main}>
+      <div className={classes.back}>
+        <BackButton>Back</BackButton>
+      </div>
       <div className={classes.header}>Your orders</div>
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
@@ -139,6 +154,7 @@ function Basket({
                 count={item.count}
                 overAllPlus={overAllPlus}
                 overAllMinus={overAllMinus}
+                key={uuid()}
               />
             );
           })}
@@ -175,6 +191,7 @@ function Basket({
         handleCloseCheckout={handleCloseCheckout}
         handleBuy={handleBuy}
       />
+      <Footer />
     </div>
   );
 }

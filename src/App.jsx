@@ -113,22 +113,6 @@ function App() {
       .catch((err) => console.log(err.message));
   }, [currentUser.email, favorite.length]);
 
-  useEffect(() => {
-    const colRef = collection(db, "SignedUpUsers");
-    getDocs(colRef)
-      .then((snapshot) => {
-        let obj = {};
-        snapshot.docs.forEach((doc) => {
-          if (doc.id === auth.currentUser.uid) {
-            obj = { ...doc.data() };
-            console.log(obj, "obj");
-          }
-        });
-        dispatch(setUser({ ...obj }));
-      })
-      .catch((err) => console.log(err.message));
-  }, []);
-
   const handleSignUpClickOpen = () => {
     setSignUpDialogOpen(true);
   };

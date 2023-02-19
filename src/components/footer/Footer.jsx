@@ -112,6 +112,7 @@ const useStyles = createUseStyles({
       transition: "color .3s ease",
     },
   },
+  allFooter: { width: "100%" },
 });
 
 export const Footer = () => {
@@ -119,7 +120,7 @@ export const Footer = () => {
   const [showMore, setShowMore] = useState(false);
 
   return (
-    <>
+    <div className={classes.allFooter}>
       <div className={classes.footer}>
         <div className={classes.contact}>
           <hr className={classes.footerLine}></hr>
@@ -217,6 +218,6 @@ export const Footer = () => {
           Terms of Use and Privacy Policy
         </a>
       </p>
-    </>
+    </div>
   );
 };

@@ -101,7 +101,7 @@ function SignIn() {
       );
   };
   if (auth.currentUser) {
-    return <Navigate to="/" />;
+    navigate("/");
   }
   return (
     <div className={classes.signInDialog}>
