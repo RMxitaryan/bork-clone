@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth, db, deleteItemFirebase } from "../../config/Config";
 import { setBasket } from "../../redux/user/actions";
 import { selectBasket, selectUser } from "../../redux/user/selector";
+import Checkout from "../checkout/Checkout";
 import BuyDialog from "../Dialog/BuyDialog";
 import SnackbarSuccess from "../snackbar/SnackbarSuccess";
 import BasketCard from "./BasketCard";
@@ -110,10 +111,10 @@ function Basket({
     setOverAllPrice(overAllPrice - Number(price));
     setOverAllCount(overAllCount - 1);
   };
-  const handleBuyClick = () => {
+  const handleOpenCheckout = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleCloseCheckout = () => {
     setOpen(false);
   };
   const handleBuy = () => {
@@ -121,12 +122,8 @@ function Basket({
       deleteItemFirebase(auth.currentUser.email, item.id);
     });
     dispatch(setBasket([]));
-    setOpen(false);
-    setOpenSnackbar(true);
   };
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false);
-  };
+
   return (
     <div className={classes.main}>
       <div className={classes.header}>Your orders</div>
@@ -165,23 +162,19 @@ function Basket({
               </div>
             </div>
             <div className={classes.border}></div>
-            <button className={classes.buttonBuy} onClick={handleBuyClick}>
-              BUY
+            <button className={classes.buttonBuy} onClick={handleOpenCheckout}>
+              Order
             </button>
           </div>
         ) : (
           <></>
         )}
       </div>
-      <BuyDialog handleYes={handleBuy} handleClose={handleClose} open={open}>
-        Are you sure you want to buy these products?
-      </BuyDialog>
-      <SnackbarSuccess
-        handleCloseSnackbarSuccess={handleSnackbarClose}
-        open={openSnackbar}
-      >
-        You have just successfully bought basket`s products
-      </SnackbarSuccess>
+      <Checkout
+        open={open}
+        handleCloseCheckout={handleCloseCheckout}
+        handleBuy={handleBuy}
+      />
     </div>
   );
 }

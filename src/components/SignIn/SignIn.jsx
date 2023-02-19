@@ -4,12 +4,12 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/database";
 import { createUseStyles } from "react-jss";
-import { borderColor } from "@mui/system";
-import { useNavigate } from "react-router";
-import { set } from "@firebase/database";
+import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/selector";
 import { setUser } from "../../redux/user/actions";
+import { Link } from "react-router-dom";
+import { auth } from "../../config/Config";
 
 const useStyles = createUseStyles({
   signInDialog: {
@@ -66,17 +66,19 @@ const useStyles = createUseStyles({
   error: {
     color: "#FF0000",
   },
-  signUpBtn: {
+  span: { color: "#968881" },
+  link: {
+    marginLeft: 10,
+    listStyleType: "none",
     color: "#9a9999",
-    textDecoration: "underline",
-
+    textDecoration: "none",
     "&:hover": {
       cursor: "pointer",
       color: "rgb(240,240,240)",
     },
   },
 });
-function SignIn({ basketUpdaterFunc }) {
+function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -90,7 +92,6 @@ function SignIn({ basketUpdaterFunc }) {
       .signInWithEmailAndPassword(email, password)
       .then(
         (auth) => {
-          basketUpdaterFunc();
           dispatch(setUser({ ...currentUser, email: auth.user.email }));
           navigate("/");
         },
@@ -99,6 +100,9 @@ function SignIn({ basketUpdaterFunc }) {
         }
       );
   };
+  if (auth.currentUser) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className={classes.signInDialog}>
       <div className={classes.signInContent}>
@@ -133,14 +137,13 @@ function SignIn({ basketUpdaterFunc }) {
         >
           Sign In
         </PrimaryButton>
-
-        <div
-          onClick={() => {
-            navigate("/signup");
-          }}
-          className={classes.signUpBtn}
-        >
-          Sign Up
+        <div>
+          <span className={classes.span}>
+            Don't have an account yet?
+            <Link className={classes.link} to="/signup">
+              Sign up here.
+            </Link>
+          </span>
         </div>
       </div>
     </div>

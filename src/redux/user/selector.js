@@ -28,3 +28,6 @@ export const selectHealthAndBeauty = (state) => {
 export const selectHomeAndClimate = (state) => {
   return state.homeAndClimate;
 };
+export const selectCheckoutInfo = (state) => {
+  return state.checkout;
+};

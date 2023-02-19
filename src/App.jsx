@@ -19,7 +19,7 @@ import {
   selectFavourite,
   selectUser,
 } from "./redux/user/selector";
-import { setBasket, setFavourite } from "./redux/user/actions";
+import { setBasket, setFavourite, setUser } from "./redux/user/actions";
 import Kitchen from "./components/MenuPages/Kitchen";
 import Accessories from "./components/MenuPages/Accessories";
 import HealthAndBeauty from "./components/MenuPages/HealthAndBeauty";
@@ -112,6 +112,22 @@ function App() {
       })
       .catch((err) => console.log(err.message));
   }, [currentUser.email, favorite.length]);
+
+  useEffect(() => {
+    const colRef = collection(db, "SignedUpUsers");
+    getDocs(colRef)
+      .then((snapshot) => {
+        let obj = {};
+        snapshot.docs.forEach((doc) => {
+          if (doc.id === auth.currentUser.uid) {
+            obj = { ...doc.data() };
+            console.log(obj, "obj");
+          }
+        });
+        dispatch(setUser({ ...obj }));
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
 
   const handleSignUpClickOpen = () => {
     setSignUpDialogOpen(true);

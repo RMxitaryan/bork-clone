@@ -8,10 +8,8 @@ import { createUseStyles } from "react-jss";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/database";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/user/selector";
 import { setUser } from "../../redux/user/actions";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -65,13 +63,15 @@ const useStyles = createUseStyles({
     height: "40px",
     padding: "10px",
   },
-  signUpBtn: {
-    color: "#9a9999",
-    textDecoration: "underline",
-
+  span: { color: "#302d2b" },
+  link: {
+    marginLeft: 10,
+    listStyleType: "none",
+    color: "#302d2b",
+    textDecoration: "none",
     "&:hover": {
       cursor: "pointer",
-      color: "rgb(240,240,240)",
+      color: "#9a9999",
     },
   },
 });
@@ -141,16 +141,16 @@ function SignInDialog({ open, handleClose }) {
             >
               Sign In
             </PrimaryButton>
-            <div
-              onClick={() => {
-                navigate("/signup");
-              }}
-              className={classes.signUpBtn}
-            >
-              Sign Up
-            </div>
           </div>
         </DialogActions>
+        <div>
+          <span className={classes.span}>
+            Don't have an account yet?
+            <Link className={classes.link} to="/signup" onClick={handleClose}>
+              Sign up here.
+            </Link>
+          </span>
+        </div>
       </div>
     </Dialog>
   );
