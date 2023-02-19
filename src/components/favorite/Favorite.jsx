@@ -8,6 +8,7 @@ import { selectFavourite } from "../../redux/user/selector";
 import PrimaryButton from "../Button/Button";
 import BuyDialog from "../Dialog/BuyDialog";
 import FavoriteCard from "./FavoriteCard";
+import { Footer } from "../footer/Footer";
 const useStyles = createUseStyles({
   main: {
     width: "100%",
@@ -175,6 +176,7 @@ function Favorite({ overAllFavoriteCount, setOverAllFavoriteCount }) {
       <BuyDialog handleYes={handleClear} handleClose={handleClose} open={open}>
         Are you sure you want to clear all these products?
       </BuyDialog>
+      <Footer />
     </div>
   );
 }

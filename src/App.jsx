@@ -19,7 +19,7 @@ import {
   selectFavourite,
   selectUser,
 } from "./redux/user/selector";
-import { setBasket, setFavourite } from "./redux/user/actions";
+import { setBasket, setFavourite, setUser } from "./redux/user/actions";
 import Kitchen from "./components/MenuPages/Kitchen";
 import Accessories from "./components/MenuPages/Accessories";
 import HealthAndBeauty from "./components/MenuPages/HealthAndBeauty";

@@ -8,3 +8,4 @@ export const SET_BORKHOME_CARD = "set_borkhome_card";
 export const SET_HEALTHANDBEAUTY_CARD = "set_healthandbeauty_card";
 export const SET_HOMEANDCLIMATE_CARD = "set_homeandclimate_card";
 export const SET_FAVOURITE = "set_favorite";
+export const SET_CHECKOUT = "set_checkout";

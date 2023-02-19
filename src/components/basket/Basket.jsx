@@ -6,11 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth, db, deleteItemFirebase } from "../../config/Config";
 import { setBasket } from "../../redux/user/actions";
 import { selectBasket, selectUser } from "../../redux/user/selector";
+import Checkout from "../checkout/Checkout";
 import BuyDialog from "../Dialog/BuyDialog";
 import SnackbarSuccess from "../snackbar/SnackbarSuccess";
 import BasketCard from "./BasketCard";
+import { v4 as uuid } from "uuid";
+import BackButton from "../Button/BackButton";
+import { Footer } from "../footer/Footer";
 const useStyles = createUseStyles({
   main: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     width: "100%",
     height: "100%",
   },
@@ -88,6 +95,12 @@ const useStyles = createUseStyles({
       borderColor: "#ED8855",
     },
   },
+  back: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    width: "100%",
+  },
 });
 function Basket({
   overAllCount,
@@ -110,10 +123,10 @@ function Basket({
     setOverAllPrice(overAllPrice - Number(price));
     setOverAllCount(overAllCount - 1);
   };
-  const handleBuyClick = () => {
+  const handleOpenCheckout = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleCloseCheckout = () => {
     setOpen(false);
   };
   const handleBuy = () => {
@@ -121,14 +134,13 @@ function Basket({
       deleteItemFirebase(auth.currentUser.email, item.id);
     });
     dispatch(setBasket([]));
-    setOpen(false);
-    setOpenSnackbar(true);
   };
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false);
-  };
+
   return (
     <div className={classes.main}>
+      <div className={classes.back}>
+        <BackButton>Back</BackButton>
+      </div>
       <div className={classes.header}>Your orders</div>
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
@@ -142,6 +154,7 @@ function Basket({
                 count={item.count}
                 overAllPlus={overAllPlus}
                 overAllMinus={overAllMinus}
+                key={uuid()}
               />
             );
           })}
@@ -165,23 +178,20 @@ function Basket({
               </div>
             </div>
             <div className={classes.border}></div>
-            <button className={classes.buttonBuy} onClick={handleBuyClick}>
-              BUY
+            <button className={classes.buttonBuy} onClick={handleOpenCheckout}>
+              Order
             </button>
           </div>
         ) : (
           <></>
         )}
       </div>
-      <BuyDialog handleYes={handleBuy} handleClose={handleClose} open={open}>
-        Are you sure you want to buy these products?
-      </BuyDialog>
-      <SnackbarSuccess
-        handleCloseSnackbarSuccess={handleSnackbarClose}
-        open={openSnackbar}
-      >
-        You have just successfully bought basket`s products
-      </SnackbarSuccess>
+      <Checkout
+        open={open}
+        handleCloseCheckout={handleCloseCheckout}
+        handleBuy={handleBuy}
+      />
+      <Footer />
     </div>
   );
 }

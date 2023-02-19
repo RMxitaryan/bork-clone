@@ -3,7 +3,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { createUseStyles } from "react-jss";
 import { Link, useNavigate } from "react-router-dom";
-
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { auth } from "../../config/Config";
 import { useDispatch } from "react-redux";
@@ -81,36 +80,13 @@ function ProfileIcon({ openHome, setOpenHome }) {
             </MenuItem>
           }
         </Link>
-        {/* <Link to="/favourite" className={classes.link}>
-          {
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setOpenHome(false);
-              }}
-            >
-              Favourite
-            </MenuItem>
-          }
-        </Link> */}
-        {/* <Link to="/about" className={classes.link}>
-          {
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setOpenHome(false);
-              }}
-            >
-              About
-            </MenuItem>
-          }
-        </Link> */}
         <MenuItem
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             auth.signOut();
             dispatch(setUser({}));
             setOpenHome(openHome);
-            return navigate("/");
+            navigate("/");
           }}
         >
           Log out

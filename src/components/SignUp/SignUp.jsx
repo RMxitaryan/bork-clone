@@ -4,11 +4,16 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/database";
 import { createUseStyles } from "react-jss";
-import { useNavigate } from "react-router";
+import { useNavigate, Navigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/selector";
 import { setUser } from "../../redux/user/actions";
-import { addBasket, addFavorite, addUsersFirebase } from "../../config/Config";
+import {
+  addBasket,
+  addFavorite,
+  addUsersFirebase,
+  auth,
+} from "../../config/Config";
 
 const useStyles = createUseStyles({
   signUpDialog: {
@@ -88,7 +93,9 @@ function SignUp() {
       })
       .catch((error) => setError("Invalid email or password"));
   };
-
+  if (auth.currentUser) {
+    navigate("/");
+  }
   return (
     <div className={classes.signUpDialog}>
       <div className={classes.signUpContent}>
