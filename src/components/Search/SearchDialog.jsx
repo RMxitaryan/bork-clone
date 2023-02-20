@@ -9,7 +9,10 @@ import Slide from '@mui/material/Slide';
 import { createUseStyles } from 'react-jss';
 import Search from '@mui/icons-material/Search';
 import { List } from '@mui/material';
-
+import { selectCard } from '../../redux/user/selector';
+import { useSelector } from 'react-redux';
+import { Card } from '../Cards/Card';
+import { v4 as uuidv4 } from 'uuid';
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -54,11 +57,6 @@ const useStyles = createUseStyles({
 		width: 40,
 		height: 40,
 		padding: 5,
-		'&:hover': {
-			backgroundColor: 'rgba(255, 255, 255, 0.2)',
-			borderRadius: '50%',
-			cursor: 'pointer',
-		},
 	},
 	searchCloseBtn: {
 		width: 40,
@@ -73,12 +71,28 @@ const useStyles = createUseStyles({
 	list: {
 		width: '100%',
 		height: '100%',
-		backgroundColor: '3a3333',
+		backgroundColor: '#3a3333',
+
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-evenly',
+		flexWrap: 'wrap',
 	},
 });
-function FullScreenDialog({ open, handleClose }) {
+function FullScreenDialog({
+	open,
+	handleClose,
+	key,
+	openHome,
+	handleSignUpClose,
+	handleSignUpClickOpen,
+	handleSignInClickOpen,
+	handleSignInClose,
+}) {
 	const [inputValue, setInputValue] = useState('');
+	const cards = useSelector(selectCard);
 	const classes = useStyles();
+
 	return (
 		<div>
 			<Dialog
@@ -127,7 +141,43 @@ function FullScreenDialog({ open, handleClose }) {
 						</IconButton>
 					</Toolbar>
 				</AppBar>
-				<List className={classes.list}></List>
+				<List className={classes.list}>
+					{cards.map((item) => {
+						if (inputValue.length > 0) {
+							if (item.name.includes(inputValue)) {
+								return (
+									<Card
+										key={uuidv4()}
+										openHome={openHome}
+										handleSignUpClose={handleSignUpClose}
+										handleSignUpClickOpen={handleSignUpClickOpen}
+										handleSignInClickOpen={handleSignInClickOpen}
+										handleSignInClose={handleSignInClose}
+										src={item.src}
+										price={item.price}
+										name={item.name}
+										id={item.id}
+									/>
+								);
+							}
+						} else {
+							return (
+								<Card
+									key={uuidv4()}
+									openHome={openHome}
+									handleSignUpClose={handleSignUpClose}
+									handleSignUpClickOpen={handleSignUpClickOpen}
+									handleSignInClickOpen={handleSignInClickOpen}
+									handleSignInClose={handleSignInClose}
+									src={item.src}
+									price={item.price}
+									name={item.name}
+									id={item.id}
+								/>
+							);
+						}
+					})}
+				</List>
 			</Dialog>
 		</div>
 	);

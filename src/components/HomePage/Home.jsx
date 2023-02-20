@@ -111,6 +111,11 @@ function Home({
 				handleClickOpen={handleSearchClickOpen}
 				handleClose={handleSearchClose}
 				open={searchDialogOpen}
+				openHome={openHome}
+				handleSignUpClose={handleSignUpClose}
+				handleSignUpClickOpen={handleSignUpClickOpen}
+				handleSignInClickOpen={handleSignInClickOpen}
+				handleSignInClose={handleSignInClose}
 			/>
 
 			<CarouselBox />
