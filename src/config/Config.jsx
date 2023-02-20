@@ -76,11 +76,19 @@ export const addImagesFirebase = (name, price, src, id, email, categories) => {
 export const addBasket = (email) => {
 	setDoc(doc(db, 'Basket', email), {});
 };
+export const addFavorite = (email) => {
+  setDoc(doc(db, "Favorite", email), {});
+};
 
 export const addItemFirebase = (card, email, id) => {
 	updateDoc(doc(db, 'Basket', email), {
 		[id]: card,
 	});
+};
+export const addItemFirebaseFavorite = (card, email, id) => {
+  updateDoc(doc(db, "Favorite", email), {
+    [id]: card,
+  });
 };
 
 export const changeCount = (email, id, card) => {
@@ -93,4 +101,9 @@ export const deleteItemFirebase = (email, id) => {
 	updateDoc(doc(db, 'Basket', email), {
 		[id]: deleteField(),
 	});
+};
+export const deleteItemFirebaseFavorite = (email, id) => {
+  updateDoc(doc(db, "Favorite", email), {
+    [id]: deleteField(),
+  });
 };

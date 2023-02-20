@@ -9,15 +9,9 @@ import {
 	SET_BORKHOME_CARD,
 	SET_HEALTHANDBEAUTY_CARD,
 	SET_HOMEANDCLIMATE_CARD,
+	SET_FAVOURITE,
+	SET_CHECKOUT,
 } from '../actionTypes';
-
-// export const userInitialState = {
-//   // email: null,
-//   // firstName: null,
-//   // lastName: null,
-//   // phone: null,
-//   // url: null,
-// };
 
 export const userInitialState = [];
 export const setUserReducer = (state = userInitialState, action) => {
@@ -29,6 +23,7 @@ export const setUserReducer = (state = userInitialState, action) => {
 			lastName: action.payload.lastName,
 			phone: action.payload.phone,
 			url: action.payload.url,
+			address: action.payload.address,
 		};
 	}
 	if (action.type === DELETE_USER) {
@@ -78,6 +73,41 @@ export const setKitchenReducer = (state = [], action) => {
 export const setBasketReduser = (state = [], action) => {
 	if (action.type === SET_CARD_BASKET) {
 		return action.payload;
+	}
+	return state;
+};
+export const setFavouriteReducer = (state = [], action) => {
+	if (action.type === SET_FAVOURITE) {
+		return action.payload;
+	}
+	return state;
+};
+
+const initialCheckout = {
+	addressTwo: '',
+	country: '',
+	city: '',
+	zipCode: '',
+	state: '',
+	cardName: '',
+	cardNumber: '',
+	expiryDate: '',
+	cvc: '',
+};
+export const setCheckoutReducer = (state = initialCheckout, action) => {
+	if (action.type === SET_CHECKOUT) {
+		return {
+			...state,
+			addressTwo: action.payload.addressTwo,
+			country: action.payload.country,
+			city: action.payload.city,
+			zipCode: action.payload.zipCode,
+			state: action.payload.state,
+			cardName: action.payload.cardName,
+			cardNumber: action.payload.cardNumber,
+			expiryDate: action.payload.expiryDate,
+			cvc: action.payload.cvc,
+		};
 	}
 	return state;
 };

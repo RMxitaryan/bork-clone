@@ -26,6 +26,7 @@ import { setBasket, setCard } from '../../redux/user/actions';
 import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../../config/Config';
 import { AddCard } from '../Cards/AddCard';
+import { Footer } from '../footer/Footer';
 
 const useStyles = createUseStyles({
 	header: {
@@ -151,6 +152,7 @@ function Home({
 					/>
 				)}
 			</div>
+			<Footer />
 		</div>
 	);
 }

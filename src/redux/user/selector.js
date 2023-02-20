@@ -9,6 +9,9 @@ export const selectCard = (state) => {
 export const selectBasket = (state) => {
 	return state.basket;
 };
+export const selectFavourite = (state) => {
+  return state.favourite;
+};
 
 export const selectKitchen = (state) => {
 	return state.kitchen;
@@ -24,4 +27,7 @@ export const selectHealthAndBeauty = (state) => {
 };
 export const selectHomeAndClimate = (state) => {
 	return state.homeAndClimate;
+};
+export const selectCheckoutInfo = (state) => {
+  return state.checkout;
 };

@@ -29,12 +29,12 @@ const useStyles = createUseStyles({
     },
   },
 });
-function BackButton() {
+function BackButton({ children }) {
   const classes = useStyles();
   return (
     <>
       <Link to="/" className={classes.back}>
-        Back
+        {children}
       </Link>
     </>
   );

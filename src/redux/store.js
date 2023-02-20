@@ -4,6 +4,8 @@ import {
 	setBasketReduser,
 	setBorkHomeReducer,
 	setCardReduser,
+	setFavouriteReducer,
+	setCheckoutReducer,
 	setHealthAndBeautyReducer,
 	setHomeAndClimateReducer,
 	setKitchenReducer,
@@ -16,10 +18,12 @@ export const store = createStore(
 		user: setUserReducer,
 		card: setCardReduser,
 		basket: setBasketReduser,
+		favourite: setFavouriteReducer,
 		kitchen: setKitchenReducer,
 		borkHome: setBorkHomeReducer,
 		homeAndClimate: setHomeAndClimateReducer,
 		accessories: setAccessoriesReducer,
 		healthAndBeauty: setHealthAndBeautyReducer,
+		checkout: setCheckoutReducer,
 	})
 );

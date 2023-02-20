@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function BuyDialog({ handleBuy, handleClose, open }) {
+export default function BuyDialog({ handleYes, handleClose, open, children }) {
   const classes = useStyles();
   return (
     <>
@@ -40,14 +40,12 @@ export default function BuyDialog({ handleBuy, handleClose, open }) {
           <DialogTitle>{"Buying products"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              <p className={classes.text}>
-                Are you sure you want to buy this products?
-              </p>
+              <p className={classes.text}>{children}</p>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <PrimaryButton onClick={handleClose}>Cancel</PrimaryButton>
-            <PrimaryButton onClick={handleBuy}>Buy</PrimaryButton>
+            <PrimaryButton onClick={handleYes}>Yes</PrimaryButton>
           </DialogActions>
         </div>
       </Dialog>

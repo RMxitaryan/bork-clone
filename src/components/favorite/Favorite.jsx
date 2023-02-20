@@ -1,23 +1,16 @@
-import { fontSize, height } from "@mui/system";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useDispatch, useSelector } from "react-redux";
-import { auth, db, deleteItemFirebase } from "../../config/Config";
-import { setBasket } from "../../redux/user/actions";
-import { selectBasket, selectUser } from "../../redux/user/selector";
-import Checkout from "../checkout/Checkout";
+import { auth, db, deleteItemFirebaseFavorite } from "../../config/Config";
+import { setFavourite } from "../../redux/user/actions";
+import { selectFavourite } from "../../redux/user/selector";
+import PrimaryButton from "../Button/Button";
 import BuyDialog from "../Dialog/BuyDialog";
-import SnackbarSuccess from "../snackbar/SnackbarSuccess";
-import BasketCard from "./BasketCard";
-import { v4 as uuid } from "uuid";
-import BackButton from "../Button/BackButton";
+import FavoriteCard from "./FavoriteCard";
 import { Footer } from "../footer/Footer";
 const useStyles = createUseStyles({
   main: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
     width: "100%",
     height: "100%",
   },
@@ -53,6 +46,8 @@ const useStyles = createUseStyles({
     height: 150,
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
   border: {
     backgroundColor: "#625A57",
@@ -68,13 +63,12 @@ const useStyles = createUseStyles({
   },
   overAll: {
     height: "100%",
-    width: "49%",
     color: "white",
-    textAlign: "center",
     fontSize: 22,
-    marginTop: "15%",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
   underOverAll: {
     color: "#625A57",
@@ -95,104 +89,95 @@ const useStyles = createUseStyles({
       borderColor: "#ED8855",
     },
   },
-  back: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    width: "100%",
+  count: {
+    paddingTop: 20,
+  },
+  clearButton: {
+    width: "40%",
+    height: 45,
+    marginLeft: "30%",
+    marginTop: "8%",
+    letterSpacing: "1.4px",
+    border: "2px solid #B5582A",
+    backgroundColor: "#B5582A",
+    color: "white",
+    borderRadius: 27,
+    "&:hover": {
+      backgroundColor: "#ED8855",
+      borderColor: "#ED8855",
+    },
   },
 });
-function Basket({
-  overAllCount,
-  overAllPrice,
-  setOverAllCount,
-  setOverAllPrice,
-}) {
-  const classes = useStyles();
-  const basket = useSelector(selectBasket);
-  const dispatch = useDispatch();
+function Favorite({ overAllFavoriteCount, setOverAllFavoriteCount }) {
   const [open, setOpen] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const currentUser = useSelector(selectUser);
+  const classes = useStyles();
+  const favorite = useSelector(selectFavourite);
+  const dispatch = useDispatch();
 
-  const overAllPlus = (price) => {
-    setOverAllPrice(overAllPrice + Number(price));
-    setOverAllCount(overAllCount + 1);
-  };
-  const overAllMinus = (price) => {
-    setOverAllPrice(overAllPrice - Number(price));
-    setOverAllCount(overAllCount - 1);
-  };
-  const handleOpenCheckout = () => {
-    setOpen(true);
-  };
-  const handleCloseCheckout = () => {
+  const handleClear = () => {
+    favorite.map((item) => {
+      deleteItemFirebaseFavorite(auth.currentUser.email, item.id);
+    });
+    dispatch(setFavourite([]));
     setOpen(false);
   };
-  const handleBuy = () => {
-    basket.map((item) => {
-      deleteItemFirebase(auth.currentUser.email, item.id);
-    });
-    dispatch(setBasket([]));
-  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClearClick = () => {
+    setOpen(true);
+  };
   return (
     <div className={classes.main}>
-      <div className={classes.back}>
-        <BackButton>Back</BackButton>
-      </div>
-      <div className={classes.header}>Your orders</div>
+      <div className={classes.header}>Your favorite items</div>
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
-          {basket.map((item) => {
+          {favorite.map((item) => {
             return (
-              <BasketCard
+              <FavoriteCard
                 id={item.id}
-                price={item.price}
                 name={item.name}
                 src={item.src}
-                count={item.count}
-                overAllPlus={overAllPlus}
-                overAllMinus={overAllMinus}
-                key={uuid()}
+                price={item.price}
+                overAllFavoriteCount={overAllFavoriteCount}
+                setOverAllFavoriteCount={setOverAllFavoriteCount}
               />
             );
           })}
         </div>
-        {basket.length ? (
+        {favorite.length ? (
           <div
             className={classes.cardRight}
             style={{
-              height: 360 + (basket.length > 1 ? (basket.length - 1) * 362 : 0),
+              height:
+                360 + (favorite.length > 1 ? (favorite.length - 1) * 362 : 0),
             }}
           >
             <div className={classes.cardRightTop}>
               <div className={classes.overAll}>
-                {overAllCount}
+                <div className={classes.count}>{overAllFavoriteCount}</div>
+
                 <div className={classes.underOverAll}>items</div>
-              </div>
-              <div className={classes.borderTop}></div>
-              <div className={classes.overAll}>
-                {`${overAllPrice} $`}
-                <div className={classes.underOverAll}>price</div>
               </div>
             </div>
             <div className={classes.border}></div>
-            <button className={classes.buttonBuy} onClick={handleOpenCheckout}>
-              Order
-            </button>
+            <PrimaryButton
+              onClick={handleClearClick}
+              className={classes.clearButton}
+            >
+              Clear All
+            </PrimaryButton>
           </div>
         ) : (
           <></>
         )}
       </div>
-      <Checkout
-        open={open}
-        handleCloseCheckout={handleCloseCheckout}
-        handleBuy={handleBuy}
-      />
+      <BuyDialog handleYes={handleClear} handleClose={handleClose} open={open}>
+        Are you sure you want to clear all these products?
+      </BuyDialog>
       <Footer />
     </div>
   );
 }
-export default Basket;
+export default Favorite;
