@@ -122,6 +122,9 @@ function AccSettBar() {
     dispatch(setUser({}));
     return navigate("/");
   };
+  const handeleAddItemClick = () => {
+    navigate("/additem");
+  };
 
   return (
     <>
@@ -165,7 +168,7 @@ function AccSettBar() {
           <ul className={classes.barList}>
             <li className={classes.barListItem}>
               <AddBusinessIcon className={classes.leftBarItem} />
-              <span> Add product </span>
+              <span onClick={handeleAddItemClick}> Add product </span>
             </li>
             <li className={classes.barListItem}>
               <PermIdentityIcon className={classes.leftBarItem} />
