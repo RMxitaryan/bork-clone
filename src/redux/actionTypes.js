@@ -9,3 +9,4 @@ export const SET_HEALTHANDBEAUTY_CARD = 'set_healthandbeauty_card';
 export const SET_HOMEANDCLIMATE_CARD = 'set_homeandclimate_card';
 export const SET_FAVOURITE = 'set_favorite';
 export const SET_CHECKOUT = 'set_checkout';
+export const SET_SEARCH = 'set_search';

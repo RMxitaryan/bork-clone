@@ -10,6 +10,7 @@ import {
 	SET_HOMEANDCLIMATE_CARD,
 	SET_FAVOURITE,
 	SET_CHECKOUT,
+	SET_SEARCH,
 } from '../actionTypes';
 
 export const setUser = (payload) => {
@@ -22,6 +23,10 @@ export const deleteUser = (payload) => {
 
 export const setCard = (payload) => {
 	return { type: SET_CARD, payload };
+};
+
+export const setSearch = (payload) => {
+	return { type: SET_SEARCH, payload };
 };
 
 export const setBasket = (payload) => {

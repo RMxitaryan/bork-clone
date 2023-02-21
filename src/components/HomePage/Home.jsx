@@ -22,7 +22,7 @@ import {
 	selectUser,
 	selectBasket,
 } from '../../redux/user/selector';
-import { setBasket, setCard } from '../../redux/user/actions';
+import { setCard, setSearch } from '../../redux/user/actions';
 import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../../config/Config';
 import { AddCard } from '../Cards/AddCard';
@@ -92,16 +92,27 @@ function Home({
 		getDocs(colRef)
 			.then((snapshot) => {
 				let arr = [];
-				for (let i = 0; i < 9; i++) {
+				for (let i = 0; i < 7; i++) {
 					if (snapshot.docs[i]) {
 						arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
 					}
 				}
-				// snapshot.docs.forEach((doc) => {
 
-				// });
 				console.log(arr, 'aaaaaaaaaa');
 				dispatch(setCard(arr));
+			})
+			.catch((err) => console.log(err.message));
+	}, [updater]);
+
+	useEffect(() => {
+		const colRef = collection(db, 'Images');
+		getDocs(colRef)
+			.then((snapshot) => {
+				let arr = [];
+				snapshot.docs.forEach((doc) => {
+					arr.push({ ...doc.data(), id: doc.id });
+				});
+				dispatch(setSearch(arr));
 			})
 			.catch((err) => console.log(err.message));
 	}, [updater]);

@@ -11,6 +11,7 @@ import {
 	SET_HOMEANDCLIMATE_CARD,
 	SET_FAVOURITE,
 	SET_CHECKOUT,
+	SET_SEARCH,
 } from '../actionTypes';
 
 export const userInitialState = [];
@@ -40,6 +41,14 @@ export const setCardReduser = (state = [], action) => {
 	}
 	return state;
 };
+
+export const setSearchReducer = (state = [], action) => {
+	if (action.type === SET_SEARCH) {
+		return action.payload;
+	}
+	return state;
+};
+
 export const setAccessoriesReducer = (state = [], action) => {
 	if (action.type === SET_ACCESSORISE_CARD) {
 		return action.payload;

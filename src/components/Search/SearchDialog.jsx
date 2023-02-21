@@ -9,7 +9,7 @@ import Slide from '@mui/material/Slide';
 import { createUseStyles } from 'react-jss';
 import Search from '@mui/icons-material/Search';
 import { List } from '@mui/material';
-import { selectCard } from '../../redux/user/selector';
+import { selectCard, selectSearch } from '../../redux/user/selector';
 import { useSelector } from 'react-redux';
 import { Card } from '../Cards/Card';
 import { v4 as uuidv4 } from 'uuid';
@@ -69,8 +69,6 @@ const useStyles = createUseStyles({
 		},
 	},
 	list: {
-		width: '100%',
-		height: '100%',
 		backgroundColor: '#3a3333',
 
 		display: 'flex',
@@ -90,7 +88,7 @@ function FullScreenDialog({
 	handleSignInClose,
 }) {
 	const [inputValue, setInputValue] = useState('');
-	const cards = useSelector(selectCard);
+	const search = useSelector(selectSearch);
 	const classes = useStyles();
 
 	return (
@@ -142,7 +140,7 @@ function FullScreenDialog({
 					</Toolbar>
 				</AppBar>
 				<List className={classes.list}>
-					{cards.map((item) => {
+					{search.map((item) => {
 						if (inputValue.length > 0) {
 							if (item.name.includes(inputValue)) {
 								return (
