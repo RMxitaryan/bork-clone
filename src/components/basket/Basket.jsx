@@ -21,13 +21,18 @@ const useStyles = createUseStyles({
     width: "100%",
     height: "100%",
   },
-  header: {
+  order: {
     width: "100%",
-    height: 80,
     fontSize: 40,
     color: "#9D9390",
+    marginLeft: "30%",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "row",
     marginTop: 80,
-    textAlign: "center",
+    height: 80,
+    width: "100%",
   },
   cards: {
     display: "flex",
@@ -97,9 +102,8 @@ const useStyles = createUseStyles({
   },
   back: {
     display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    width: "100%",
+    alignItems: "start",
+    marginLeft: "3%",
   },
 });
 function Basket({
@@ -138,10 +142,15 @@ function Basket({
 
   return (
     <div className={classes.main}>
-      <div className={classes.back}>
-        <BackButton>Back</BackButton>
+      <div className={classes.header}>
+        <div className={classes.back}>
+          <BackButton>Back</BackButton>
+        </div>
+        <div className={classes.order}>
+          {basket.length ? "Your orders" : "You don`t have orders"}
+        </div>
       </div>
-      <div className={classes.header}>Your orders</div>
+
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
           {basket.map((item) => {
