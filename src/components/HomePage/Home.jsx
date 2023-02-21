@@ -22,7 +22,7 @@ import {
 	selectUser,
 	selectBasket,
 } from '../../redux/user/selector';
-import { setCard, setSearch } from '../../redux/user/actions';
+import { setBasket, setCard, setSearch } from '../../redux/user/actions';
 import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../../config/Config';
 import { AddCard } from '../Cards/AddCard';
@@ -79,8 +79,9 @@ function Home({
 	handleSearchClose,
 	handleSignUpClickOpen,
 	searchDialogOpen,
+	updater,
+	setUpdater,
 }) {
-	const [updater, setUpdater] = useState(false);
 	const classes = useStyles();
 	const cards = useSelector(selectCard);
 	const basket = useSelector(selectBasket);

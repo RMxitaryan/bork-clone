@@ -3,10 +3,26 @@ import { width } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useDispatch, useSelector } from "react-redux";
-import { auth, changeCount, deleteItemFirebase } from "../../config/Config";
-import { selectBasket } from "../../redux/user/selector";
+import {
+  auth,
+  changeCount,
+  deleteAddedItemFirebaseCategories,
+  deleteAddedItemFirebaseImages,
+  deleteItemFirebase,
+  deleteItemFirebaseFavorite,
+} from "../../config/Config";
+import {
+  selectAddedItems,
+  selectBasket,
+  selectFavourite,
+} from "../../redux/user/selector";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { setBasket } from "../../redux/user/actions";
+import {
+  setAddedItems,
+  setBasket,
+  setFavourite,
+} from "../../redux/user/actions";
+import DeleteItemDialog from "../Dialog/DeleteItemDialog";
 const useStyles = createUseStyles({
   card: {
     width: "100%",
@@ -34,7 +50,6 @@ const useStyles = createUseStyles({
     alignItems: "center",
   },
   image: {
-    paddingLeft: "10px",
     transition: "transform .3s ease,opacity .3s,-webkit-transform .3s ease",
     "&:hover": {
       cursor: "pointer",
@@ -108,47 +123,27 @@ const useStyles = createUseStyles({
     },
   },
 });
-function BasketCard({ id, price, name, src, overAllPlus, overAllMinus }) {
-  const [currentCount, setCurrentCount] = useState(0);
+function AddedItem({
+  id,
+  price,
+  name,
+  src,
+  categories,
+  setOverAllAddCount,
+  overAllAddCount,
+}) {
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const classes = useStyles();
-  const basket = useSelector(selectBasket);
   const dispatch = useDispatch();
-  useEffect(() => {
-    basket.map((item) => {
-      if (item.id === id) {
-        setCurrentCount(item.count);
-      }
-    });
-  }, []);
-  const plusArrow = () => {
-    overAllPlus(price);
-    changeCount(auth.currentUser.email, id, {
-      id,
-      price,
-      name,
-      src,
-      count: currentCount + 1,
-    });
-    setCurrentCount(currentCount + 1);
-  };
-  const minusArrow = () => {
-    if (currentCount > 1) {
-      setCurrentCount(currentCount - 1);
-      overAllMinus(price);
-      changeCount(auth.currentUser.email, id, {
-        id,
-        price,
-        name,
-        src,
-        count: currentCount - 1,
-      });
-    }
-  };
+  const addedItems = useSelector(selectAddedItems);
+
   const handleDeleteItem = () => {
-    deleteItemFirebase(auth.currentUser.email, id);
+    setOverAllAddCount(overAllAddCount - 1);
+    deleteAddedItemFirebaseImages(id);
+    deleteAddedItemFirebaseCategories(categories, id);
     dispatch(
-      setBasket(
-        basket.filter((item) => {
+      setAddedItems(
+        addedItems.filter((item) => {
           return item.id !== id;
         })
       )
@@ -157,7 +152,11 @@ function BasketCard({ id, price, name, src, overAllPlus, overAllMinus }) {
   return (
     <div className={classes.card}>
       <div className={classes.closeBlock}>
-        <img src="img/close.png" width={20} onClick={handleDeleteItem} />
+        <img
+          src="img/close.png"
+          width={20}
+          onClick={() => setOpenDeleteDialog(true)}
+        />
       </div>
       <div className={classes.cardLeft}>
         <div className={classes.itemImage}>
@@ -165,31 +164,18 @@ function BasketCard({ id, price, name, src, overAllPlus, overAllMinus }) {
         </div>
         <div className={classes.itemName}>{name}</div>
         <div className={classes.cardInformation}>
-          <div className={classes.countBlock}>
-            <div className={classes.count}>{currentCount}</div>
-            <div className={classes.arrow}>
-              <img
-                src="img/arrowhead-up.png"
-                height={18}
-                width={18}
-                onClick={plusArrow}
-                className={classes.plus}
-              />
-              <img
-                src="img/arrowhead-up.png"
-                height={18}
-                width={18}
-                className={classes.minus}
-                onClick={minusArrow}
-              />
-            </div>
-          </div>
           <div className={classes.priceBlock}>
             <p className={classes.price}>{`${price} $`}</p>
           </div>
         </div>
       </div>
+      <DeleteItemDialog
+        openDeleteDialog={openDeleteDialog}
+        setOpenDeleteDialog={setOpenDeleteDialog}
+        handleDeleteItem={handleDeleteItem}
+        name={name}
+      />
     </div>
   );
 }
-export default BasketCard;
+export default AddedItem;

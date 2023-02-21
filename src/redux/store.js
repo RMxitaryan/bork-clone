@@ -11,6 +11,7 @@ import {
 	setKitchenReducer,
 	setUserReducer,
 	setSearchReducer,
+	setAddedItemsReducer,
 } from './user/reducer';
 // import { uuid } from "uuidv4";
 
@@ -27,5 +28,6 @@ export const store = createStore(
 		healthAndBeauty: setHealthAndBeautyReducer,
 		checkout: setCheckoutReducer,
 		search: setSearchReducer,
+		addedItems: setAddedItemsReducer,
 	})
 );

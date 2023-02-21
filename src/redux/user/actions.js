@@ -11,6 +11,7 @@ import {
 	SET_FAVOURITE,
 	SET_CHECKOUT,
 	SET_SEARCH,
+	SET_ADDED_ITEM,
 } from '../actionTypes';
 
 export const setUser = (payload) => {
@@ -53,4 +54,8 @@ export const setFavourite = (payload) => {
 
 export const setCheckout = (payload) => {
 	return { type: SET_CHECKOUT, payload };
+};
+
+export const setAddedItems = (payload) => {
+	return { type: SET_ADDED_ITEM, payload };
 };

@@ -12,6 +12,7 @@ import {
 	SET_FAVOURITE,
 	SET_CHECKOUT,
 	SET_SEARCH,
+	SET_ADDED_ITEM,
 } from '../actionTypes';
 
 export const userInitialState = [];
@@ -87,6 +88,12 @@ export const setBasketReduser = (state = [], action) => {
 };
 export const setFavouriteReducer = (state = [], action) => {
 	if (action.type === SET_FAVOURITE) {
+		return action.payload;
+	}
+	return state;
+};
+export const setAddedItemsReducer = (state = [], action) => {
+	if (action.type === SET_ADDED_ITEM) {
 		return action.payload;
 	}
 	return state;

@@ -10,3 +10,4 @@ export const SET_HOMEANDCLIMATE_CARD = 'set_homeandclimate_card';
 export const SET_FAVOURITE = 'set_favorite';
 export const SET_CHECKOUT = 'set_checkout';
 export const SET_SEARCH = 'set_search';
+export const SET_ADDED_ITEM = 'set_added_item';

@@ -13,6 +13,7 @@ import { selectCard, selectSearch } from '../../redux/user/selector';
 import { useSelector } from 'react-redux';
 import { Card } from '../Cards/Card';
 import { v4 as uuidv4 } from 'uuid';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
