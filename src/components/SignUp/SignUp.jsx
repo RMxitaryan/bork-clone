@@ -13,7 +13,10 @@ import {
   addFavorite,
   addUsersFirebase,
   auth,
+  db,
 } from "../../config/Config";
+import { Link } from "react-router-dom";
+import { setDoc, doc } from "firebase/firestore";
 
 const useStyles = createUseStyles({
   signUpDialog: {
@@ -69,6 +72,17 @@ const useStyles = createUseStyles({
   error: {
     color: "#FF0000",
   },
+  span: { color: "#968881" },
+  link: {
+    marginLeft: 10,
+    listStyleType: "none",
+    color: "#9a9999",
+    textDecoration: "none",
+    "&:hover": {
+      cursor: "pointer",
+      color: "rgb(240,240,240)",
+    },
+  },
 });
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -85,7 +99,16 @@ function SignUp() {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
-        addUsersFirebase(userName, email, password);
+        // addUsersFirebase(userName, email, password);
+        setDoc(doc(db, "SignedUpUsers", auth.user.uid), {
+          userName,
+          email,
+          password,
+          fistName: "",
+          lastName: "",
+          phone: "",
+          url: "",
+        });
         dispatch(setUser({ ...currentUser, email: auth.user.email }));
         addBasket(email);
         addFavorite(email);
@@ -143,6 +166,14 @@ function SignUp() {
             Sign Up
           </PrimaryButton>
         </div>
+      </div>
+      <div>
+        <span className={classes.span}>
+          Already have an account?
+          <Link className={classes.link} to="/signin">
+            Sign in.
+          </Link>
+        </span>
       </div>
     </div>
   );

@@ -21,13 +21,18 @@ const useStyles = createUseStyles({
     width: "100%",
     height: "100%",
   },
-  header: {
+  order: {
     width: "100%",
-    height: 80,
     fontSize: 40,
     color: "#9D9390",
+    marginLeft: "30%",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "row",
     marginTop: 80,
-    textAlign: "center",
+    height: 80,
+    width: "100%",
   },
   cards: {
     display: "flex",
@@ -97,9 +102,8 @@ const useStyles = createUseStyles({
   },
   back: {
     display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    width: "100%",
+    alignItems: "start",
+    marginLeft: "3%",
   },
 });
 function Basket({
@@ -114,7 +118,6 @@ function Basket({
   const [open, setOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const currentUser = useSelector(selectUser);
-
   const overAllPlus = (price) => {
     setOverAllPrice(overAllPrice + Number(price));
     setOverAllCount(overAllCount + 1);
@@ -135,23 +138,27 @@ function Basket({
     });
     dispatch(setBasket([]));
   };
-
+  console.log(basket, "aaaaaaaaa");
   return (
     <div className={classes.main}>
-      <div className={classes.back}>
-        <BackButton>Back</BackButton>
+      <div className={classes.header}>
+        <div className={classes.back}>
+          <BackButton>Back</BackButton>
+        </div>
+        <div className={classes.order}>
+          {basket.length ? "Your orders" : "You don`t have orders"}
+        </div>
       </div>
-      <div className={classes.header}>Your orders</div>
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
           {basket.map((item) => {
             return (
               <BasketCard
-                id={item.id}
-                price={item.price}
-                name={item.name}
-                src={item.src}
-                count={item.count}
+                id={item?.id}
+                price={item?.price}
+                name={item?.name}
+                src={item?.src}
+                count={item?.count}
                 overAllPlus={overAllPlus}
                 overAllMinus={overAllMinus}
                 key={uuid()}

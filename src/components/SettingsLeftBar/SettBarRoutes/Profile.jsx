@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Home from "../../HomePage/Home";
 import AccSettBar from "../AccSettBar";
 import { makeStyles } from "@mui/styles";
+import FullScreenDialog from "../../Search/SearchDialog";
 
 const useStyles = makeStyles({
   Profile: {
@@ -13,7 +14,16 @@ const useStyles = makeStyles({
   },
 });
 
-function Profile() {
+function Profile({
+  open,
+  handleClose,
+  key,
+  openHome,
+  handleSignUpClose,
+  handleSignUpClickOpen,
+  handleSignInClickOpen,
+  handleSignInClose,
+}) {
   const classes = useStyles();
 
   return (
@@ -21,6 +31,15 @@ function Profile() {
       <div className={classes.leftBar}>
         <AccSettBar />
       </div>
+      <FullScreenDialog
+        handleClose={handleClose}
+        open={open}
+        openHome={openHome}
+        handleSignUpClose={handleSignUpClose}
+        handleSignUpClickOpen={handleSignUpClickOpen}
+        handleSignInClickOpen={handleSignInClickOpen}
+        handleSignInClose={handleSignInClose}
+      />
       <div className={classes.rightBar}></div>
     </div>
   );
