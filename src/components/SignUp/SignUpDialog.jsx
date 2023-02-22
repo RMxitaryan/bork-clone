@@ -11,7 +11,14 @@ import "firebase/compat/database";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/selector";
 import { setUser } from "../../redux/user/actions";
-import { addBasket, addFavorite, addUsersFirebase } from "../../config/Config";
+import {
+  addBasket,
+  addFavorite,
+  addUsersFirebase,
+  db,
+} from "../../config/Config";
+import { Link } from "react-router-dom";
+import { setDoc, doc } from "firebase/firestore";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -66,6 +73,17 @@ const useStyles = createUseStyles({
     padding: "10px",
   },
   error: { color: "#ff0000" },
+  span: { color: "#302d2b" },
+  link: {
+    marginLeft: 10,
+    listStyleType: "none",
+    color: "#302d2b",
+    textDecoration: "none",
+    "&:hover": {
+      cursor: "pointer",
+      color: "#9a9999",
+    },
+  },
 });
 
 function SignUpDialog({ open, handleClose }) {
@@ -84,7 +102,15 @@ function SignUpDialog({ open, handleClose }) {
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
         let current = { userName };
-        addUsersFirebase(userName, email, password);
+        setDoc(doc(db, "SignedUpUsers", auth.user.uid), {
+          userName,
+          email,
+          password,
+          fistName: "",
+          lastName: "",
+          phone: "",
+          url: "",
+        });
         dispatch(setUser({ ...current, email: auth.user.email }));
         addBasket(email);
         addFavorite(email);
@@ -148,6 +174,14 @@ function SignUpDialog({ open, handleClose }) {
             </PrimaryButton>
           </div>
         </DialogActions>
+        <div>
+          <span className={classes.span}>
+            Already have an account?
+            <Link className={classes.link} to="/signin" onClick={handleClose}>
+              Sign in.
+            </Link>
+          </span>
+        </div>
       </div>
     </Dialog>
   );

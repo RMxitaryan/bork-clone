@@ -162,6 +162,7 @@ function App() {
   const handelClickMenuBar = () => {
     setIsOpenMenu(!isOpenMenu);
   };
+
   const classes = useStyles();
   return (
     <div className={classes.app}>
@@ -211,13 +212,18 @@ function App() {
               />
               <Route path="signin" element={<SignIn />} />
               <Route path="signup" element={<SignUp />} />
-              <Route path="profile" element={<Profile />} />
               <Route
-                path="additem"
+                path="profile"
                 element={
-                  <AddedItemsPage
-                    overAllAddCount={overAllAddCount}
-                    setOverAllAddCount={setOverAllAddCount}
+                  <Profile
+                    handleClickOpen={handleSearchClickOpen}
+                    handleClose={handleSearchClose}
+                    open={searchDialogOpen}
+                    openHome={openHome}
+                    handleSignUpClose={handleSignUpClose}
+                    handleSignUpClickOpen={handleSignUpClickOpen}
+                    handleSignInClickOpen={handleSignInClickOpen}
+                    handleSignInClose={handleSignInClose}
                   />
                 }
               />

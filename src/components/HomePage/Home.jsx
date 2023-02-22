@@ -22,7 +22,7 @@ import {
   selectUser,
   selectBasket,
 } from "../../redux/user/selector";
-import { setBasket, setCard } from "../../redux/user/actions";
+import { setBasket, setCard, setUser } from "../../redux/user/actions";
 import { v4 as uuidv4 } from "uuid";
 import { auth, db } from "../../config/Config";
 import { AddCard } from "../Cards/AddCard";
@@ -98,14 +98,25 @@ function Home({
             arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
           }
         }
-        // snapshot.docs.forEach((doc) => {
-
-        // });
         console.log(arr, "aaaaaaaaaa");
         dispatch(setCard(arr));
       })
       .catch((err) => console.log(err.message));
   }, [updater]);
+  useEffect(() => {
+    const colRef = collection(db, "SignedUpUsers");
+    getDocs(colRef)
+      .then((snapshot) => {
+        let obj = {};
+        snapshot.docs.forEach((doc) => {
+          if (doc.id === auth.currentUser.uid) {
+            obj = { ...doc.data() };
+          }
+        });
+        dispatch(setUser({ ...obj }));
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
 
   return (
     <div className={classes.app}>

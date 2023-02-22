@@ -118,7 +118,6 @@ function Basket({
   const [open, setOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const currentUser = useSelector(selectUser);
-
   const overAllPlus = (price) => {
     setOverAllPrice(overAllPrice + Number(price));
     setOverAllCount(overAllCount + 1);
@@ -139,7 +138,7 @@ function Basket({
     });
     dispatch(setBasket([]));
   };
-
+  console.log(basket, "aaaaaaaaa");
   return (
     <div className={classes.main}>
       <div className={classes.header}>
@@ -150,17 +149,16 @@ function Basket({
           {basket.length ? "Your orders" : "You don`t have orders"}
         </div>
       </div>
-
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
           {basket.map((item) => {
             return (
               <BasketCard
-                id={item.id}
-                price={item.price}
-                name={item.name}
-                src={item.src}
-                count={item.count}
+                id={item?.id}
+                price={item?.price}
+                name={item?.name}
+                src={item?.src}
+                count={item?.count}
                 overAllPlus={overAllPlus}
                 overAllMinus={overAllMinus}
                 key={uuid()}

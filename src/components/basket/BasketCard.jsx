@@ -108,39 +108,64 @@ const useStyles = createUseStyles({
     },
   },
 });
-function BasketCard({ id, price, name, src, overAllPlus, overAllMinus }) {
-  const [currentCount, setCurrentCount] = useState(0);
+function BasketCard({
+  id,
+  price,
+  name,
+  src,
+  overAllPlus,
+  overAllMinus,
+  count,
+}) {
   const classes = useStyles();
   const basket = useSelector(selectBasket);
   const dispatch = useDispatch();
-  useEffect(() => {
-    basket.map((item) => {
-      if (item.id === id) {
-        setCurrentCount(item.count);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   basket.map((item) => {
+  //     if (item.id === id) {
+  //       setCurrentCount(item.count);
+  //     }
+  //   });
+  // }, []);
   const plusArrow = () => {
     overAllPlus(price);
+    dispatch(
+      setBasket(
+        basket.map((item) => {
+          if (item?.id === id) {
+            return { ...item, count: count + 1 };
+          }
+          return { ...item };
+        })
+      )
+    );
     changeCount(auth.currentUser.email, id, {
       id,
       price,
       name,
       src,
-      count: currentCount + 1,
+      count: count + 1,
     });
-    setCurrentCount(currentCount + 1);
   };
   const minusArrow = () => {
-    if (currentCount > 1) {
-      setCurrentCount(currentCount - 1);
+    if (count > 1) {
       overAllMinus(price);
+      dispatch(
+        setBasket(
+          basket.map((item) => {
+            if (item?.id === id) {
+              return { ...item, count: count - 1 };
+            }
+            return { ...item };
+          })
+        )
+      );
       changeCount(auth.currentUser.email, id, {
         id,
         price,
         name,
         src,
-        count: currentCount - 1,
+        count: count - 1,
       });
     }
   };
@@ -149,7 +174,7 @@ function BasketCard({ id, price, name, src, overAllPlus, overAllMinus }) {
     dispatch(
       setBasket(
         basket.filter((item) => {
-          return item.id !== id;
+          return item?.id !== id;
         })
       )
     );
@@ -166,7 +191,7 @@ function BasketCard({ id, price, name, src, overAllPlus, overAllMinus }) {
         <div className={classes.itemName}>{name}</div>
         <div className={classes.cardInformation}>
           <div className={classes.countBlock}>
-            <div className={classes.count}>{currentCount}</div>
+            <div className={classes.count}>{count}</div>
             <div className={classes.arrow}>
               <img
                 src="img/arrowhead-up.png"

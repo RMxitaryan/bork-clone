@@ -69,7 +69,10 @@ const useStyles = createUseStyles({
     },
   },
   list: {
+    width: "100%",
+    height: "100%",
     backgroundColor: "#3a3333",
+
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -141,7 +144,7 @@ function FullScreenDialog({
         <List className={classes.list}>
           {cards.map((item) => {
             if (inputValue.length > 0) {
-              if (item.name.includes(inputValue)) {
+              if (item.name.toLowerCase().includes(inputValue.toLowerCase())) {
                 return (
                   <Card
                     key={uuidv4()}

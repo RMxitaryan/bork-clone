@@ -37,7 +37,7 @@ export default function BuyDialog({ handleYes, handleClose, open, children }) {
         aria-describedby="alert-dialog-slide-description"
       >
         <div className={classes.dialog}>
-          <DialogTitle>{"Buying products"}</DialogTitle>
+          <DialogTitle>{"Delete all favorite items"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               <p className={classes.text}>{children}</p>
