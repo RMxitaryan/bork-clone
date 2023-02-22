@@ -79,8 +79,9 @@ function Home({
   handleSearchClose,
   handleSignUpClickOpen,
   searchDialogOpen,
+  updater,
+  setUpdater,
 }) {
-  const [updater, setUpdater] = useState(false);
   const classes = useStyles();
   const cards = useSelector(selectCard);
   const basket = useSelector(selectBasket);

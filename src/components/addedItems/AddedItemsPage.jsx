@@ -2,14 +2,19 @@ import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useDispatch, useSelector } from "react-redux";
-import { auth, db, deleteItemFirebaseFavorite } from "../../config/Config";
-import { setFavourite } from "../../redux/user/actions";
-import { selectFavourite } from "../../redux/user/selector";
+import {
+  auth,
+  db,
+  deleteAddedItemFirebaseCategories,
+  deleteAddedItemFirebaseImages,
+  deleteItemFirebaseFavorite,
+} from "../../config/Config";
+import { setAddedItems, setFavourite } from "../../redux/user/actions";
+import { selectAddedItems, selectFavourite } from "../../redux/user/selector";
 import PrimaryButton from "../Button/Button";
 import BuyDialog from "../Dialog/BuyDialog";
-import FavoriteCard from "./FavoriteCard";
 import { Footer } from "../footer/Footer";
-import { v4 as uuid } from "uuid";
+import AddedItem from "./AddedItem";
 const useStyles = createUseStyles({
   main: {
     width: "100%",
@@ -109,17 +114,18 @@ const useStyles = createUseStyles({
     },
   },
 });
-function Favorite({ overAllFavoriteCount, setOverAllFavoriteCount }) {
+function AddedItemsPage({ overAllAddCount, setOverAllAddCount }) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const favorite = useSelector(selectFavourite);
+  const addedItems = useSelector(selectAddedItems);
   const dispatch = useDispatch();
 
   const handleClear = () => {
-    favorite.map((item) => {
-      deleteItemFirebaseFavorite(auth.currentUser.email, item.id);
+    addedItems.map((item) => {
+      deleteAddedItemFirebaseImages(item.id);
+      deleteAddedItemFirebaseCategories(item.categories, item.id);
     });
-    dispatch(setFavourite([]));
+    dispatch(setAddedItems([]));
     setOpen(false);
   };
 
@@ -132,37 +138,36 @@ function Favorite({ overAllFavoriteCount, setOverAllFavoriteCount }) {
   return (
     <div className={classes.main}>
       <div className={classes.header}>
-        {favorite.length
-          ? "Your favorite items"
-          : "You don`t have favorite items"}
+        {addedItems.length ? "Your added items" : "You don`t have added items"}
       </div>
       <div className={classes.cardTogather}>
         <div className={classes.cards}>
-          {favorite.map((item) => {
+          {addedItems.map((item) => {
             return (
-              <FavoriteCard
-                id={item.id}
+              <AddedItem
                 name={item.name}
-                src={item.src}
                 price={item.price}
-                overAllFavoriteCount={overAllFavoriteCount}
-                setOverAllFavoriteCount={setOverAllFavoriteCount}
-                key={uuid()}
+                src={item.src}
+                categories={item.categories}
+                id={item.id}
+                setOverAllAddCount={setOverAllAddCount}
+                overAllAddCount={overAllAddCount}
               />
             );
           })}
         </div>
-        {favorite.length ? (
+        {addedItems.length ? (
           <div
             className={classes.cardRight}
             style={{
               height:
-                360 + (favorite.length > 1 ? (favorite.length - 1) * 362 : 0),
+                360 +
+                (addedItems.length > 1 ? (addedItems.length - 1) * 362 : 0),
             }}
           >
             <div className={classes.cardRightTop}>
               <div className={classes.overAll}>
-                <div className={classes.count}>{overAllFavoriteCount}</div>
+                <div className={classes.count}>{overAllAddCount}</div>
 
                 <div className={classes.underOverAll}>items</div>
               </div>
@@ -180,10 +185,10 @@ function Favorite({ overAllFavoriteCount, setOverAllFavoriteCount }) {
         )}
       </div>
       <BuyDialog handleYes={handleClear} handleClose={handleClose} open={open}>
-        Are you sure you want to clear all these products?
+        Are you sure you want to delete all these products?
       </BuyDialog>
       <Footer />
     </div>
   );
 }
-export default Favorite;
+export default AddedItemsPage;

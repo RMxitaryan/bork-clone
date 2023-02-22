@@ -19,13 +19,19 @@ import {
   selectFavourite,
   selectUser,
 } from "./redux/user/selector";
-import { setBasket, setFavourite, setUser } from "./redux/user/actions";
+import {
+  setAddedItems,
+  setBasket,
+  setFavourite,
+  setUser,
+} from "./redux/user/actions";
 import Kitchen from "./components/MenuPages/Kitchen";
 import Accessories from "./components/MenuPages/Accessories";
 import HealthAndBeauty from "./components/MenuPages/HealthAndBeauty";
 import HomeAndClimat from "./components/MenuPages/HomeAndClimat";
 import BorkHome from "./components/MenuPages/BorkHome";
 import Favorite from "./components/favorite/Favorite";
+import AddedItemsPage from "./components/addedItems/AddedItemsPage";
 const useStyles = createUseStyles({
   app: {
     display: "flex",
@@ -55,6 +61,8 @@ function App() {
   const [overAllCount, setOverAllCount] = useState(0);
   const [overAllPrice, setOverAllPrice] = useState(0);
   const [overAllFavoriteCount, setOverAllFavoriteCount] = useState(0);
+  const [overAllAddCount, setOverAllAddCount] = useState(0);
+  const [updater, setUpdater] = useState(false);
   const favorite = useSelector(selectFavourite);
   const currentUser = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -89,6 +97,7 @@ function App() {
         dispatch(setBasket(arr));
       })
       .catch((err) => console.log(err.message));
+    console.log(basket, "basket");
   }, [currentUser.email, basket.length]);
 
   useEffect(() => {
@@ -111,6 +120,24 @@ function App() {
       })
       .catch((err) => console.log(err.message));
   }, [currentUser.email, favorite.length]);
+
+  useEffect(() => {
+    const colRef = collection(db, "Images");
+    getDocs(colRef)
+      .then((snapshot) => {
+        let arr = [];
+        let count = 0;
+        snapshot.docs.forEach((doc) => {
+          if (doc.data().email === currentUser.email) {
+            arr.push({ ...doc.data(), id: doc.id });
+            count++;
+          }
+        });
+        setOverAllAddCount(count);
+        dispatch(setAddedItems(arr));
+      })
+      .catch((err) => console.log(err.message));
+  }, [updater, currentUser.email]);
 
   const handleSignUpClickOpen = () => {
     setSignUpDialogOpen(true);
@@ -178,6 +205,8 @@ function App() {
                     handleSearchClose={handleSearchClose}
                     handleSignUpClickOpen={handleSignUpClickOpen}
                     searchDialogOpen={searchDialogOpen}
+                    updater={updater}
+                    setUpdater={setUpdater}
                   />
                 }
               />
@@ -198,13 +227,6 @@ function App() {
                   />
                 }
               />
-              {/* // open={searchDialogOpen}
-              // handleClose={}
-              // openHome={}
-              // handleSignUpClose={}
-              // handleSignUpClickOpen={}
-              // handleSignInClickOpen={}
-              // handleSignInClose={} />}/>  */}
               <Route path="editprofile" element={<EditProfile />} />
               <Route
                 path="basket"

@@ -1,32 +1,35 @@
 export const selectUser = (state) => {
-	return state.user;
+  return state.user;
 };
 
 export const selectCard = (state) => {
-	return state.card;
+  return state.card;
 };
 
 export const selectBasket = (state) => {
-	return state.basket;
+  return state.basket;
 };
 export const selectFavourite = (state) => {
   return state.favourite;
 };
+export const selectAddedItems = (state) => {
+  return state.addedItems;
+};
 
 export const selectKitchen = (state) => {
-	return state.kitchen;
+  return state.kitchen;
 };
 export const selectBorkHome = (state) => {
-	return state.borkHome;
+  return state.borkHome;
 };
 export const selectAccessories = (state) => {
-	return state.accessories;
+  return state.accessories;
 };
 export const selectHealthAndBeauty = (state) => {
-	return state.healthAndBeauty;
+  return state.healthAndBeauty;
 };
 export const selectHomeAndClimate = (state) => {
-	return state.homeAndClimate;
+  return state.homeAndClimate;
 };
 export const selectCheckoutInfo = (state) => {
   return state.checkout;
