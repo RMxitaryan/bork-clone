@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Route, Routes, Outlet, useLocation } from 'react-router-dom';
 import Home from './components/HomePage/Home';
 import Navbar from './components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
@@ -66,6 +66,9 @@ function App() {
 	const favorite = useSelector(selectFavourite);
 	const currentUser = useSelector(selectUser);
 	const dispatch = useDispatch();
+	const [openDialog, setOpenDialog] = useState(false);
+
+	const location = useLocation();
 
 	useEffect(() => {
 		setLoading(true);
@@ -160,7 +163,10 @@ function App() {
 	};
 
 	const handelClickMenuBar = () => {
-		setIsOpenMenu(!isOpenMenu);
+		if (location.pathname === '/') {
+			setIsOpenMenu(true);
+			document.body.style.overflow = 'hidden';
+		}
 	};
 	const classes = useStyles();
 	return (
@@ -185,6 +191,8 @@ function App() {
 									handleSignInClickOpen={handleSignInClickOpen}
 									handleSignUpClickOpen={handleSignUpClickOpen}
 									handleSearchClickOpen={handleSearchClickOpen}
+									openDialog={openDialog}
+									setOpenDialog={setOpenDialog}
 								/>
 							}
 						>
@@ -206,6 +214,8 @@ function App() {
 										searchDialogOpen={searchDialogOpen}
 										updater={updater}
 										setUpdater={setUpdater}
+										openDialog={openDialog}
+										setOpenDialog={setOpenDialog}
 									/>
 								}
 							/>
@@ -249,10 +259,6 @@ function App() {
 							/>
 						</Route>
 					</Routes>
-
-					{isOpenMenu ? (
-						<MenuBar isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} />
-					) : null}
 				</>
 			)}
 		</div>

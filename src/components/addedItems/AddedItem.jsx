@@ -23,6 +23,8 @@ import {
   setFavourite,
 } from "../../redux/user/actions";
 import DeleteItemDialog from "../Dialog/DeleteItemDialog";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const useStyles = createUseStyles({
   card: {
     width: "100%",
@@ -152,11 +154,12 @@ function AddedItem({
   return (
     <div className={classes.card}>
       <div className={classes.closeBlock}>
-        <img
+       <DeleteIcon className="" width={20} onClick={() => setOpenDeleteDialog(true)}/>
+        {/* <img
           src="img/close.png"
           width={20}
           onClick={() => setOpenDeleteDialog(true)}
-        />
+        /> */}
       </div>
       <div className={classes.cardLeft}>
         <div className={classes.itemImage}>

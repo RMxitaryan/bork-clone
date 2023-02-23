@@ -1,3 +1,4 @@
+import { Calculate } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { createUseStyles } from 'react-jss';
 import { Link } from 'react-router-dom';
@@ -11,7 +12,7 @@ const useStyles = createUseStyles({
 		top: '0',
 		margin: '0',
 		width: '400px',
-		height: '100vh',
+		height: '130vh',
 		transition: 'transform .3s ease,-webkit-transform .3s ease',
 		boxSizing: 'inherit',
 		opacity: '0.8',
@@ -83,7 +84,8 @@ const useStyles = createUseStyles({
 const MenuBar = ({ isOpenMenu, setIsOpenMenu }) => {
 	const classes = useStyles();
 	const onCloseMenu = () => {
-		setIsOpenMenu(!isOpenMenu);
+		setIsOpenMenu(false);
+		document.body.style.overflow = 'auto';
 	};
 	return (
 		<div className={classes.menuCatalog}>

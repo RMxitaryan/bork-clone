@@ -15,9 +15,7 @@ const useStyles = createUseStyles({
 		backgroundColor: '#3A3330',
 		width: '100%',
 		height: 60,
-		header: {},
 		display: 'flex',
-		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
@@ -43,6 +41,8 @@ const useStyles = createUseStyles({
 		textDecoration: 'none',
 	},
 	signActive: {
+		width: '100%',
+		height: 60,
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-around',
@@ -63,6 +63,8 @@ function Navbar({
 	handleSignInClickOpen,
 	handleSignUpClickOpen,
 	handleSearchClickOpen,
+	setOpenDialog,
+	openDialog,
 }) {
 	const classes = useStyles();
 	const currentUser = useSelector(selectUser);
@@ -124,7 +126,11 @@ function Navbar({
 							<Link to="basket">
 								<img src="/img/bag.png" width={23} height={23} />
 							</Link>
-							<ProfileIcon setOpenHome={setOpenHome} />
+							<ProfileIcon
+								openDialog={openDialog}
+								setOpenDialog={setOpenDialog}
+								setOpenHome={setOpenHome}
+							/>
 						</>
 					) : (
 						!isSignIn && (

@@ -27,18 +27,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../../config/Config';
 import { AddCard } from '../Cards/AddCard';
 import { Footer } from '../footer/Footer';
+import {
+	Box,
+	Dialog,
+	DialogContent,
+	Fade,
+	FormControlLabel,
+	Paper,
+} from '@mui/material';
+import ProfileDialog from '../Dialog/ProfileDialog';
 
 const useStyles = createUseStyles({
-	header: {
-		backgroundColor: '#3a3330',
-		width: '100%',
-		height: 60,
-		header: {},
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
 	name: {
 		marginLeft: '200px',
 		color: 'white',
@@ -81,6 +80,8 @@ function Home({
 	searchDialogOpen,
 	updater,
 	setUpdater,
+	openDialog,
+	setOpenDialog,
 }) {
 	const classes = useStyles();
 	const cards = useSelector(selectCard);
@@ -118,6 +119,21 @@ function Home({
 			.catch((err) => console.log(err.message));
 	}, [updater]);
 
+	const icon = (
+		<Paper
+			sx={{
+				position: 'absolute',
+				left: 0,
+				top: 0,
+				width: '100%',
+				height: '100%',
+				backgroundColor: 'rgba(0, 0, 0, 0.5)',
+			}}
+		>
+			<MenuBar isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} />
+		</Paper>
+	);
+
 	return (
 		<div className={classes.app}>
 			<FullScreenDialog
@@ -132,39 +148,66 @@ function Home({
 			/>
 
 			<CarouselBox />
-
-			{isOpenMenu ? (
-				<MenuBar isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} />
-			) : null}
-			<SignInDialog open={signInDialogOpen} handleClose={handleSignInClose} />
-			<SignUpDialog open={signUpDialogOpen} handleClose={handleSignUpClose} />
-			<div className={classes.itemsBlock}>
-				{cards.map((item) => {
-					return (
-						<Card
-							key={uuidv4()}
-							openHome={openHome}
-							handleSignUpClose={handleSignUpClose}
-							handleSignUpClickOpen={handleSignUpClickOpen}
-							handleSignInClickOpen={handleSignInClickOpen}
-							handleSignInClose={handleSignInClose}
-							src={item.src}
-							price={item.price}
-							name={item.name}
-							id={item.id}
-						/>
-					);
-				})}
-				{currentUser.email && (
-					<AddCard
-						handleSignUpClickOpen={handleSignUpClickOpen}
-						handleSignInClickOpen={handleSignInClickOpen}
-						updater={updater}
-						setUpdater={setUpdater}
+			<Box>
+				<FormControlLabel
+					control={
+						<div
+							checked={isOpenMenu}
+							onChange={() => {
+								setIsOpenMenu(!isOpenMenu);
+							}}
+						></div>
+					}
+				/>
+				<Box sx={{ display: 'flex' }}>
+					<Fade in={isOpenMenu}>{icon}</Fade>
+				</Box>
+			</Box>
+			{isOpenMenu ? null : (
+				<>
+					<SignInDialog
+						open={signInDialogOpen}
+						handleClose={handleSignInClose}
 					/>
-				)}
-			</div>
-			<Footer />
+					<SignUpDialog
+						open={signUpDialogOpen}
+						handleClose={handleSignUpClose}
+					/>
+					<div className={classes.itemsBlock}>
+						{cards.map((item) => {
+							return (
+								<Card
+									key={uuidv4()}
+									openHome={openHome}
+									handleSignUpClose={handleSignUpClose}
+									handleSignUpClickOpen={handleSignUpClickOpen}
+									handleSignInClickOpen={handleSignInClickOpen}
+									handleSignInClose={handleSignInClose}
+									src={item.src}
+									price={item.price}
+									name={item.name}
+									id={item.id}
+								/>
+							);
+						})}
+						{currentUser.email && (
+							<AddCard
+								handleSignUpClickOpen={handleSignUpClickOpen}
+								handleSignInClickOpen={handleSignInClickOpen}
+								updater={updater}
+								setUpdater={setUpdater}
+							/>
+						)}
+					</div>
+					<ProfileDialog
+						open={openDialog}
+						handleClose={() => {
+							setOpenDialog(false);
+						}}
+					/>
+					<Footer />
+				</>
+			)}
 		</div>
 	);
 }
