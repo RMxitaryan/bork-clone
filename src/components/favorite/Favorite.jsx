@@ -9,6 +9,7 @@ import PrimaryButton from "../Button/Button";
 import BuyDialog from "../Dialog/BuyDialog";
 import FavoriteCard from "./FavoriteCard";
 import { Footer } from "../footer/Footer";
+import { v4 as uuid } from "uuid";
 const useStyles = createUseStyles({
   main: {
     width: "100%",
@@ -146,6 +147,7 @@ function Favorite({ overAllFavoriteCount, setOverAllFavoriteCount }) {
                 price={item.price}
                 overAllFavoriteCount={overAllFavoriteCount}
                 setOverAllFavoriteCount={setOverAllFavoriteCount}
+                key={uuid()}
               />
             );
           })}

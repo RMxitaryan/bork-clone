@@ -120,13 +120,7 @@ function BasketCard({
 	const classes = useStyles();
 	const basket = useSelector(selectBasket);
 	const dispatch = useDispatch();
-	// useEffect(() => {
-	//   basket.map((item) => {
-	//     if (item.id === id) {
-	//       setCurrentCount(item.count);
-	//     }
-	//   });
-	// }, []);
+
 	const plusArrow = () => {
 		overAllPlus(price);
 		dispatch(

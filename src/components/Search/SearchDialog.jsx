@@ -35,7 +35,7 @@ const useStyles = createUseStyles({
 		width: '100%',
 		flex: 3,
 	},
-	searchBarRight: {},
+
 	searchTitle: {
 		flex: 1,
 	},
@@ -70,7 +70,8 @@ const useStyles = createUseStyles({
 		},
 	},
 	list: {
-		minHeight: '100%',
+		width: '100%',
+		height: '100%',
 		backgroundColor: '#3a3333',
 		display: 'flex',
 		flexDirection: 'row',
@@ -143,7 +144,12 @@ function FullScreenDialog({
 				<List className={classes.list}>
 					{search.map((item) => {
 						if (inputValue.length > 0) {
-							if (item.name.toLowerCase().includes(inputValue.toLowerCase())) {
+							if (
+								item.name
+									.toLowerCase()
+									.trim()
+									.includes(inputValue.toLowerCase().trim())
+							) {
 								return (
 									<Card
 										key={uuidv4()}
@@ -159,22 +165,23 @@ function FullScreenDialog({
 									/>
 								);
 							}
-						} else {
-							return (
-								<Card
-									key={uuidv4()}
-									openHome={openHome}
-									handleSignUpClose={handleSignUpClose}
-									handleSignUpClickOpen={handleSignUpClickOpen}
-									handleSignInClickOpen={handleSignInClickOpen}
-									handleSignInClose={handleSignInClose}
-									src={item.src}
-									price={item.price}
-									name={item.name}
-									id={item.id}
-								/>
-							);
 						}
+						//else {
+						// 	return (
+						// 		<Card
+						// 			key={uuidv4()}
+						// 			openHome={openHome}
+						// 			handleSignUpClose={handleSignUpClose}
+						// 			handleSignUpClickOpen={handleSignUpClickOpen}
+						// 			handleSignInClickOpen={handleSignInClickOpen}
+						// 			handleSignInClose={handleSignInClose}
+						// 			src={item.src}
+						// 			price={item.price}
+						// 			name={item.name}
+						// 			id={item.id}
+						// 		/>
+						// 	);
+						// }
 					})}
 				</List>
 			</Dialog>

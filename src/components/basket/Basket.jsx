@@ -118,6 +118,7 @@ function Basket({
 	const [open, setOpen] = useState(false);
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const currentUser = useSelector(selectUser);
+
 	const overAllPlus = (price) => {
 		setOverAllPrice(overAllPrice + Number(price));
 		setOverAllCount(overAllCount + 1);
@@ -138,7 +139,6 @@ function Basket({
 		});
 		dispatch(setBasket([]));
 	};
-	console.log(basket, 'aaaaaaaaa');
 	return (
 		<div className={classes.main}>
 			<div className={classes.header}>

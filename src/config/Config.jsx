@@ -33,12 +33,9 @@ const app = initializeApp(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
-
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-
 export const storage = getStorage(app);
-
 // const colRef = collection(db, "SignedUpUsers");
 // getDocs(colRef)
 //   .then((snapshot) => {
@@ -49,7 +46,6 @@ export const storage = getStorage(app);
 //     console.log(users);
 //   })
 //   .catch((err) => console.log(err.message));
-
 export const addUsersFirebase = (userName, email, password) => {
 	setDoc(doc(db, 'SignedUpUsers', uuidv4()), {
 		userName: userName,
@@ -57,7 +53,6 @@ export const addUsersFirebase = (userName, email, password) => {
 		password: password,
 	});
 };
-
 export const addImagesFirebase = (name, price, src, id, email, categories) => {
 	setDoc(doc(db, 'Images', id), {
 		src: src,
@@ -73,14 +68,12 @@ export const addImagesFirebase = (name, price, src, id, email, categories) => {
 		email: email,
 	});
 };
-
 export const addBasket = (email) => {
 	setDoc(doc(db, 'Basket', email), {});
 };
 export const addFavorite = (email) => {
 	setDoc(doc(db, 'Favorite', email), {});
 };
-
 export const addItemFirebase = (card, email, id) => {
 	updateDoc(doc(db, 'Basket', email), {
 		[id]: card,
@@ -91,13 +84,11 @@ export const addItemFirebaseFavorite = (card, email, id) => {
 		[id]: card,
 	});
 };
-
 export const changeCount = (email, id, card) => {
 	updateDoc(doc(db, 'Basket', email), {
 		[id]: card,
 	});
 };
-
 export const deleteItemFirebase = (email, id) => {
 	updateDoc(doc(db, 'Basket', email), {
 		[id]: deleteField(),

@@ -22,7 +22,12 @@ import {
 	selectUser,
 	selectBasket,
 } from '../../redux/user/selector';
-import { setBasket, setCard, setSearch } from '../../redux/user/actions';
+import {
+	setBasket,
+	setCard,
+	setSearch,
+	setUser,
+} from '../../redux/user/actions';
 import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../../config/Config';
 import { AddCard } from '../Cards/AddCard';
@@ -89,17 +94,46 @@ function Home({
 	const dispatch = useDispatch();
 	const currentUser = useSelector(selectUser);
 
+	// <<<<<<< HEAD
+	// 	useEffect(() => {
+	// 		const colRef = collection(db, 'Images');
+	// 		getDocs(colRef)
+	// 			.then((snapshot) => {
+	// 				let arr = [];
+	// 				for (let i = 0; i < 7; i++) {
+	// 					if (snapshot.docs[i]) {
+	// 						arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
+	// 					}
+	// 				}
+	// 				console.log(arr, 'aaaaaaaaaa');
+	// 				dispatch(setCard(arr));
+	// 			})
+	// 			.catch((err) => console.log(err.message));
+	// 	}, [updater]);
+
+	// 	useEffect(() => {
+	// 		const colRef = collection(db, 'Images');
+	// 		getDocs(colRef)
+	// 			.then((snapshot) => {
+	// 				let arr = [];
+	// 				snapshot.docs.forEach((doc) => {
+	// 					arr.push({ ...doc.data(), id: doc.id });
+	// 				});
+	// 				dispatch(setSearch(arr));
+	// 			})
+	// 			.catch((err) => console.log(err.message));
+	// 	}, [updater]);
+	// =======
 	useEffect(() => {
 		const colRef = collection(db, 'Images');
 		getDocs(colRef)
 			.then((snapshot) => {
 				let arr = [];
-				for (let i = 0; i < 7; i++) {
+				for (let i = 0; i < 9; i++) {
 					if (snapshot.docs[i]) {
 						arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
 					}
 				}
-
 				console.log(arr, 'aaaaaaaaaa');
 				dispatch(setCard(arr));
 			})
@@ -107,17 +141,19 @@ function Home({
 	}, [updater]);
 
 	useEffect(() => {
-		const colRef = collection(db, 'Images');
+		const colRef = collection(db, 'SignedUpUsers');
 		getDocs(colRef)
 			.then((snapshot) => {
-				let arr = [];
+				let obj = {};
 				snapshot.docs.forEach((doc) => {
-					arr.push({ ...doc.data(), id: doc.id });
+					if (doc.id === auth.currentUser.uid) {
+						obj = { ...doc.data() };
+					}
 				});
-				dispatch(setSearch(arr));
+				dispatch(setUser({ ...obj }));
 			})
 			.catch((err) => console.log(err.message));
-	}, [updater]);
+	}, []);
 
 	const icon = (
 		<Paper

@@ -113,7 +113,9 @@ function AccSettBar() {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
   const auth = getAuth();
-  const handelEditProfileClick = () => {
+
+  const handelEditProfileClick = (e) => {
+    e.preventDefault();
     navigate("/editprofile");
   };
   const handelLogOutClick = (e) => {
@@ -172,11 +174,14 @@ function AccSettBar() {
             </li>
             <li className={classes.barListItem}>
               <PermIdentityIcon className={classes.leftBarItem} />
-              <span onClick={handelEditProfileClick}> Edit profile</span>
+              <span onClick={(e) => handelEditProfileClick(e)}>
+                {" "}
+                Edit profile
+              </span>
             </li>
             <li className={classes.barListItem}>
               <LogoutIcon className={classes.leftBarItem} />
-              <span onClick={handelLogOutClick}> LogOut</span>
+              <span onClick={(e) => handelLogOutClick(e)}> LogOut</span>
             </li>
           </ul>
         </div>
