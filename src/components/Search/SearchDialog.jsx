@@ -71,7 +71,6 @@ const useStyles = createUseStyles({
 	},
 	list: {
 		width: '100%',
-		height: '100%',
 		backgroundColor: '#3a3333',
 		display: 'flex',
 		flexDirection: 'row',
@@ -165,8 +164,7 @@ function FullScreenDialog({
 									/>
 								);
 							}
-						}
-						//else {
+						} //else {
 						// 	return (
 						// 		<Card
 						// 			key={uuidv4()}

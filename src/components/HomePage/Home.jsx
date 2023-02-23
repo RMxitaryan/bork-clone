@@ -94,42 +94,12 @@ function Home({
 	const dispatch = useDispatch();
 	const currentUser = useSelector(selectUser);
 
-	// <<<<<<< HEAD
-	// 	useEffect(() => {
-	// 		const colRef = collection(db, 'Images');
-	// 		getDocs(colRef)
-	// 			.then((snapshot) => {
-	// 				let arr = [];
-	// 				for (let i = 0; i < 7; i++) {
-	// 					if (snapshot.docs[i]) {
-	// 						arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
-	// 					}
-	// 				}
-	// 				console.log(arr, 'aaaaaaaaaa');
-	// 				dispatch(setCard(arr));
-	// 			})
-	// 			.catch((err) => console.log(err.message));
-	// 	}, [updater]);
-
-	// 	useEffect(() => {
-	// 		const colRef = collection(db, 'Images');
-	// 		getDocs(colRef)
-	// 			.then((snapshot) => {
-	// 				let arr = [];
-	// 				snapshot.docs.forEach((doc) => {
-	// 					arr.push({ ...doc.data(), id: doc.id });
-	// 				});
-	// 				dispatch(setSearch(arr));
-	// 			})
-	// 			.catch((err) => console.log(err.message));
-	// 	}, [updater]);
-	// =======
 	useEffect(() => {
 		const colRef = collection(db, 'Images');
 		getDocs(colRef)
 			.then((snapshot) => {
 				let arr = [];
-				for (let i = 0; i < 9; i++) {
+				for (let i = 0; i < 7; i++) {
 					if (snapshot.docs[i]) {
 						arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
 					}
@@ -139,6 +109,35 @@ function Home({
 			})
 			.catch((err) => console.log(err.message));
 	}, [updater]);
+
+	useEffect(() => {
+		const colRef = collection(db, 'Images');
+		getDocs(colRef)
+			.then((snapshot) => {
+				let arr = [];
+				snapshot.docs.forEach((doc) => {
+					arr.push({ ...doc.data(), id: doc.id });
+				});
+				dispatch(setSearch(arr));
+			})
+			.catch((err) => console.log(err.message));
+	}, [updater]);
+	// =======
+	// useEffect(() => {
+	// 	const colRef = collection(db, 'Images');
+	// 	getDocs(colRef)
+	// 		.then((snapshot) => {
+	// 			let arr = [];
+	// 			for (let i = 0; i < 9; i++) {
+	// 				if (snapshot.docs[i]) {
+	// 					arr.push({ ...snapshot.docs[i].data(), id: snapshot.docs[i].id });
+	// 				}
+	// 			}
+	// 			console.log(arr, 'aaaaaaaaaa');
+	// 			dispatch(setCard(arr));
+	// 		})
+	// 		.catch((err) => console.log(err.message));
+	// }, [updater]);
 
 	useEffect(() => {
 		const colRef = collection(db, 'SignedUpUsers');
