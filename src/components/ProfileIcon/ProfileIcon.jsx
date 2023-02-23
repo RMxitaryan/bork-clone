@@ -7,6 +7,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import { auth } from '../../config/Config';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/user/actions';
+import { Fade } from '@mui/material';
 
 const useStyles = createUseStyles({
 	profileIcone: {
@@ -24,17 +25,12 @@ const useStyles = createUseStyles({
 	},
 });
 
-function ProfileIcon({ openHome, setOpenHome }) {
+function ProfileIcon({ openHome, setOpenHome, openDialog, setOpenDialog }) {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	//   auth.onAuthStateChanged((user) => {
-	//     console.log(user.email);
-	//     dispatch(setUser())
-	//   });
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -42,6 +38,7 @@ function ProfileIcon({ openHome, setOpenHome }) {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
 	return (
 		<>
 			<AccountCircleOutlinedIcon
@@ -54,32 +51,25 @@ function ProfileIcon({ openHome, setOpenHome }) {
 			/>
 
 			<Menu
-				id="demo-positioned-menu"
-				aria-labelledby="demo-positioned-button"
+				id="fade-menu"
+				MenuListProps={{
+					'aria-labelledby': 'fade-button',
+				}}
 				anchorEl={anchorEl}
 				open={open}
 				onClose={handleClose}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'left',
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'left',
-				}}
+				TransitionComponent={Fade}
 			>
-				<Link to="/profile" className={classes.link}>
-					{
-						<MenuItem
-							onClick={() => {
-								handleClose();
-								setOpenHome(false);
-							}}
-						>
-							Profile
-						</MenuItem>
-					}
-				</Link>
+				<MenuItem
+					onClick={() => {
+						handleClose();
+						setOpenHome(false);
+						setOpenDialog(true);
+					}}
+				>
+					Profile
+				</MenuItem>
+
 				<MenuItem
 					onClick={(e) => {
 						e.preventDefault();

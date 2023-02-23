@@ -6,11 +6,15 @@ export const selectCard = (state) => {
   return state.card;
 };
 
+export const selectSearch = (state) => {
+	return state.search;
+};
+
 export const selectBasket = (state) => {
   return state.basket;
 };
 export const selectFavourite = (state) => {
-  return state.favourite;
+	return state.favourite;
 };
 export const selectAddedItems = (state) => {
   return state.addedItems;
@@ -32,5 +36,5 @@ export const selectHomeAndClimate = (state) => {
   return state.homeAndClimate;
 };
 export const selectCheckoutInfo = (state) => {
-  return state.checkout;
+	return state.checkout;
 };
